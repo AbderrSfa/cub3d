@@ -32,7 +32,7 @@ void	draw_square(void *mlx_ptr, void *win_ptr, int x, int y)
 		i = 0;
 		while (i < TILE_SIZE)
 		{
-			mlx_pixel_put(mlx_ptr, win_ptr, x + i, y + j, 0xFFFFFF);
+			mlx_pixel_put(mlx_ptr, win_ptr, x + i, y + j, 0xFFC300);
 			i++;
 		}
 		j++;
@@ -50,10 +50,10 @@ int     main()
 	y = 0;
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "map");
-	while (y < WIN_HEIGHT)
+	while (y < (TILE_SIZE * NUM_ROWS))
 	{
 		x = 0;
-		while (x < WIN_WIDTH)
+		while (x < (TILE_SIZE * NUM_COLOMNS))
 		{
 			if (world_map[y / TILE_SIZE][x / TILE_SIZE] == 1)
 				draw_square(mlx_ptr, win_ptr, x, y);
