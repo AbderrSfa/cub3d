@@ -9,7 +9,7 @@ int		main_function(void *mlx_ptr, void *win_ptr, t_player *player)
 	x = 0;
 	j = -1;
 	player->moveSpeed = 0.3;
-	player->rotSpeed = 0.1;
+	player->rotSpeed = 0.2;
 /* 	while (j++ < (SCREEN_HEIGHT / 2))
 	{
 		i = 0;
@@ -139,19 +139,33 @@ int		key_pressed(int key, t_player *player)
 	int		pixel_y;
 
 	pixel_y = 0;
-	if (key == 126)
+	if (key == 13)
 	{
 		if (worldMap[(int)(player->posX + player->dirX * player->moveSpeed)][(int)player->posY] == 0)
 			player->posX += player->dirX * player->moveSpeed;
 		if (worldMap[(int)player->posX][(int)(player->posY + player->dirY * player->moveSpeed)] == 0)
 			player->posY += player->dirY * player->moveSpeed;
 	}
-	else if (key == 125)
+	else if (key == 1)
 	{
 		if (worldMap[(int)(player->posX - player->dirX * player->moveSpeed)][(int)player->posY] == 0)
 			player->posX -= player->dirX * player->moveSpeed;
 		if (worldMap[(int)player->posX][(int)(player->posY - player->dirY * player->moveSpeed)] == 0)
 			player->posY -= player->dirY * player->moveSpeed;
+	}
+	else if (key == 2)
+	{
+		if (worldMap[(int)player->posX][(int)(player->posY - player->dirX * player->moveSpeed)] == 0)
+			player->posY -= player->dirX * player->moveSpeed;
+		if (worldMap[(int)(player->posX + player->dirY * player->moveSpeed)][(int)player->posY] == 0)
+			player->posX += player->dirY * player->moveSpeed;
+	}
+	else if (key == 0)
+	{
+		if (worldMap[(int)player->posX][(int)(player->posY + player->dirX * player->moveSpeed)] == 0)
+			player->posY += player->dirX * player->moveSpeed;
+		if (worldMap[(int)(player->posX - player->dirY * player->moveSpeed)][(int)player->posY] == 0)
+			player->posX -= player->dirY * player->moveSpeed;
 	}
 	else if (key == 124)
 	{
@@ -179,8 +193,6 @@ int		key_pressed(int key, t_player *player)
 int		main()
 {
 	t_player	player;
-	double		time;			//time of current frame
-	double		oldTime;		//time of previous frame
 
 	player.posX = 22;
 	player.posY = 12;
@@ -188,8 +200,6 @@ int		main()
 	player.dirY = 0;
 	player.planeX = 0;
 	player.planeY = 0.66;
-	time = 0;
-	oldTime = 0;
 	player.mlx_ptr = mlx_init();
 	player.win_ptr = mlx_new_window(player.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	main_function(player.mlx_ptr, player.win_ptr, &player);
