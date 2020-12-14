@@ -8,8 +8,8 @@ int		main_function(void *mlx_ptr, void *win_ptr, t_player *player)
 
 	x = 0;
 	j = -1;
-	player->moveSpeed = 0.3;
-	player->rotSpeed = 0.2;
+	player->moveSpeed = 0.1;
+	player->rotSpeed = 0.1;
 /* 	while (j++ < (SCREEN_HEIGHT / 2))
 	{
 		i = 0;
@@ -134,40 +134,37 @@ int		main_function(void *mlx_ptr, void *win_ptr, t_player *player)
 	return (0);
 }
 
-int		key_pressed(int key, t_player *player)
+void	ft_mover(t_player *player)
 {
-	int		pixel_y;
-
-	pixel_y = 0;
-	if (key == 13)
+	if (player->t_keys.W == 1)
 	{
 		if (worldMap[(int)(player->posX + player->dirX * player->moveSpeed)][(int)player->posY] == 0)
 			player->posX += player->dirX * player->moveSpeed;
 		if (worldMap[(int)player->posX][(int)(player->posY + player->dirY * player->moveSpeed)] == 0)
 			player->posY += player->dirY * player->moveSpeed;
 	}
-	else if (key == 1)
+	if (player->t_keys.S == 1)
 	{
 		if (worldMap[(int)(player->posX - player->dirX * player->moveSpeed)][(int)player->posY] == 0)
 			player->posX -= player->dirX * player->moveSpeed;
 		if (worldMap[(int)player->posX][(int)(player->posY - player->dirY * player->moveSpeed)] == 0)
 			player->posY -= player->dirY * player->moveSpeed;
 	}
-	else if (key == 2)
+	if (player->t_keys.D == 1)
 	{
 		if (worldMap[(int)player->posX][(int)(player->posY - player->dirX * player->moveSpeed)] == 0)
 			player->posY -= player->dirX * player->moveSpeed;
 		if (worldMap[(int)(player->posX + player->dirY * player->moveSpeed)][(int)player->posY] == 0)
 			player->posX += player->dirY * player->moveSpeed;
 	}
-	else if (key == 0)
+	if (player->t_keys.A == 1)
 	{
 		if (worldMap[(int)player->posX][(int)(player->posY + player->dirX * player->moveSpeed)] == 0)
 			player->posY += player->dirX * player->moveSpeed;
 		if (worldMap[(int)(player->posX - player->dirY * player->moveSpeed)][(int)player->posY] == 0)
 			player->posX -= player->dirY * player->moveSpeed;
 	}
-	else if (key == 124)
+	if (player->t_keys.right == 1)
 	{
 		double oldDirX = player->dirX;
 		player->dirX = (player->dirX * cos(-player->rotSpeed)) - (player->dirY * sin(-player->rotSpeed));
@@ -176,7 +173,7 @@ int		key_pressed(int key, t_player *player)
 		player->planeX = (player->planeX * cos(-player->rotSpeed)) - (player->planeY * sin(-player->rotSpeed));
 		player->planeY = (oldPlaneX * sin(-player->rotSpeed)) + (player->planeY * cos(-player->rotSpeed));
 	}
-	else if (key == 123)
+	if (player->t_keys.left == 1)
 	{
 		double oldDirX = player->dirX;
 		player->dirX = (player->dirX * cos(player->rotSpeed)) - (player->dirY * sin(player->rotSpeed));
@@ -185,8 +182,47 @@ int		key_pressed(int key, t_player *player)
 		player->planeX = (player->planeX * cos(player->rotSpeed)) - (player->planeY * sin(player->rotSpeed));
 		player->planeY = (oldPlaneX * sin(player->rotSpeed)) + (player->planeY * cos(player->rotSpeed));
 	}
+}
+
+int		update(t_player *player)
+{
+	ft_mover(player);
 	mlx_clear_window(player->mlx_ptr, player->win_ptr);
 	main_function(player->mlx_ptr, player->win_ptr, player);
+	return (0);
+}
+
+int		key_pressed(int key, t_player *player)
+{
+	if (key == 13)
+		player->t_keys.W = 1;
+	if (key == 1)
+		player->t_keys.S = 1;
+	if (key == 0)
+		player->t_keys.A = 1;
+	if (key == 2)
+		player->t_keys.D = 1;
+	if (key == 123)
+		player->t_keys.left = 1;
+	if (key == 124)
+		player->t_keys.right = 1;
+	return (0);
+}
+
+int		key_released(int key, t_player *player)
+{
+	if (key == 13)
+		player->t_keys.W = 0;
+	if (key == 1)
+		player->t_keys.S = 0;
+	if (key == 0)
+		player->t_keys.A = 0;
+	if (key == 2)
+		player->t_keys.D = 0;
+	if (key == 123)
+		player->t_keys.left = 0;
+	if (key == 124)
+		player->t_keys.right = 0;
 	return (0);
 }
 
@@ -202,8 +238,9 @@ int		main()
 	player.planeY = 0.66;
 	player.mlx_ptr = mlx_init();
 	player.win_ptr = mlx_new_window(player.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
-	main_function(player.mlx_ptr, player.win_ptr, &player);
 	mlx_hook(player.win_ptr, 2, (1L<<0), key_pressed, &player);
+	mlx_hook(player.win_ptr, 3, (1L<<1), key_released, &player);
+	mlx_loop_hook(player.mlx_ptr, update, &player);
 	mlx_loop(player.mlx_ptr);
 	return (0);
 }

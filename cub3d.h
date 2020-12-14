@@ -23,6 +23,15 @@ typedef struct	s_player
 	double	planeY;			//y camera coordinate
 	double	moveSpeed;
 	double	rotSpeed;
+	struct  s_keys
+	{
+		int		left;
+		int		right;
+		int		W;
+		int		S;
+		int		A;
+		int		D;
+	}       t_keys;
 }				t_player;
 
 int worldMap[MAP_WIDTH][MAP_HEIGHT] =
