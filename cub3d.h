@@ -3,63 +3,62 @@
 
 # include <stdio.h>
 # include <math.h>
-# include <time.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
 # include "mlx.h"
 
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
-# define SCREEN_WIDTH 640
-# define SCREEN_HEIGHT 480
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 500
 
-typedef struct	s_player
+typedef struct	s_img
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	double	posX;			//x start position of player
-	double	posY;			//y start position of player
-	double	dirX;			//x coordinate of direction
-	double	dirY;			//y coordinate of direction
-	double	planeX;			//x camera coordinate
-	double	planeY;			//y camera coordinate
-	double	moveSpeed;
-	double	rotSpeed;
-	struct  s_keys
-	{
-		int		left;
-		int		right;
-		int		W;
-		int		S;
-		int		A;
-		int		D;
-	}       t_keys;
-}				t_player;
+	void		*img_ptr;
+	int			*data;
+	int			size_l;
+	int			bpp;
+	int			endian;	
+}				t_img;
 
-int worldMap[MAP_WIDTH][MAP_HEIGHT] =
+typedef struct	s_keys
 {
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
+	int			left;
+	int			right;
+	int			W;
+	int			S;
+	int			A;
+	int			D;
+}       		t_keys;
+
+typedef struct	s_mlx
+{
+	void    	*mlx_ptr;
+	void		*win_ptr;
+	double		posX;			//x start position of player
+	double		posY;			//y start position of player
+	double		dirX;			//x coordinate of direction
+	double		dirY;			//y coordinate of direction
+	double		planeX;			//x camera coordinate
+	double		planeY;			//y camera coordinate
+	double		moveSpeed;
+	double		rotSpeed;
+	t_img		img;
+	t_keys		keys;
+}				t_mlx;
+
+int 	worldMap[MAP_WIDTH][MAP_HEIGHT];
+
+void	ft_initialize(t_mlx *mlx);
+int		ft_update(t_mlx *mlx);
+void	ft_movement(t_mlx *mlx);
+void	ft_rotation(t_mlx *mlx);
+int		ft_key_pressed(int key, t_mlx *mlx);
+int		ft_key_released(int key, t_mlx *mlx);
+int		ft_draw(void *mlx_ptr, void *win_ptr, t_mlx *mlx);
+void	ft_putchar(char c);
+void	ft_putstr(char *s);
+void	ft_putnbr(long n);
 
 #endif
