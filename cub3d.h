@@ -10,8 +10,8 @@
 
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 500
+# define SCREEN_WIDTH 640
+# define SCREEN_HEIGHT 480
 
 typedef struct	s_img
 {
@@ -56,7 +56,8 @@ void	ft_movement(t_mlx *mlx);
 void	ft_rotation(t_mlx *mlx);
 int		ft_key_pressed(int key, t_mlx *mlx);
 int		ft_key_released(int key, t_mlx *mlx);
-int		ft_draw(void *mlx_ptr, void *win_ptr, t_mlx *mlx);
+void	ft_draw_sky_floor(t_mlx *mlx);
+void	ft_draw_walls(t_mlx *mlx);
 void	ft_putchar(char c);
 void	ft_putstr(char *s);
 void	ft_putnbr(long n);

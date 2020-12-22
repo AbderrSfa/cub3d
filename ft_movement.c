@@ -5,31 +5,46 @@ void	ft_movement(t_mlx *mlx)
 	if (mlx->keys.W == 1)
 	{
 		if (worldMap[(int)(mlx->posX + mlx->dirX * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX += mlx->dirX * mlx->moveSpeed;
+			mlx->posX += mlx->dirX * mlx->moveSpeed * 0.5;
 		if (worldMap[(int)mlx->posX][(int)(mlx->posY + mlx->dirY * mlx->moveSpeed)] == 0)
-			mlx->posY += mlx->dirY * mlx->moveSpeed;
+			mlx->posY += mlx->dirY * mlx->moveSpeed * 0.5;
 	}
 	if (mlx->keys.S == 1)
 	{
 		if (worldMap[(int)(mlx->posX - mlx->dirX * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX -= mlx->dirX * mlx->moveSpeed;
+			mlx->posX -= mlx->dirX * mlx->moveSpeed * 0.5;
 		if (worldMap[(int)mlx->posX][(int)(mlx->posY - mlx->dirY * mlx->moveSpeed)] == 0)
-			mlx->posY -= mlx->dirY * mlx->moveSpeed;
+			mlx->posY -= mlx->dirY * mlx->moveSpeed * 0.5;
 	}
 	if (mlx->keys.D == 1)
 	{
 		if (worldMap[(int)mlx->posX][(int)(mlx->posY - mlx->dirX * mlx->moveSpeed)] == 0)
-			mlx->posY -= mlx->dirX * mlx->moveSpeed;
+			mlx->posY -= mlx->dirX * mlx->moveSpeed * 0.5;
 		if (worldMap[(int)(mlx->posX + mlx->dirY * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX += mlx->dirY * mlx->moveSpeed;
+			mlx->posX += mlx->dirY * mlx->moveSpeed * 0.5;
 	}
 	if (mlx->keys.A == 1)
 	{
 		if (worldMap[(int)mlx->posX][(int)(mlx->posY + mlx->dirX * mlx->moveSpeed)] == 0)
-			mlx->posY += mlx->dirX * mlx->moveSpeed;
+			mlx->posY += mlx->dirX * mlx->moveSpeed * 0.5;
 		if (worldMap[(int)(mlx->posX - mlx->dirY * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX -= mlx->dirY * mlx->moveSpeed;
+			mlx->posX -= mlx->dirY * mlx->moveSpeed * 0.5;
 	}
+	//strafe to the right and left like in Lodev
+/* 	if (mlx->keys.D == 1)
+	{
+		if (worldMap[(int)(mlx->posX + mlx->planeX * mlx->moveSpeed)][(int)mlx->posY] == 0)
+			mlx->posX += mlx->planeX * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)mlx->posX][(int)(mlx->posY + mlx->planeY * mlx->moveSpeed)] == 0)
+			mlx->posY += mlx->planeY * mlx->moveSpeed * 0.5;
+	}
+	if (mlx->keys.A == 1)
+	{
+		if (worldMap[(int)(mlx->posX - mlx->planeX * mlx->moveSpeed)][(int)mlx->posY] == 0)
+			mlx->posX -= mlx->planeX * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)mlx->posX][(int)(mlx->posY - mlx->planeY * mlx->moveSpeed)] == 0)
+			mlx->posY -= mlx->planeY * mlx->moveSpeed * 0.5;
+	} */
 	if (mlx->keys.right == 1 || mlx->keys.left)
 		ft_rotation(mlx);
 }

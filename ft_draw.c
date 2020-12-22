@@ -1,6 +1,35 @@
 #include "cub3d.h"
 
-int		ft_draw(void *mlx_ptr, void *win_ptr, t_mlx *mlx)
+void	ft_draw_sky_floor(t_mlx *mlx)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	while (y < (SCREEN_HEIGHT / 2))
+	{
+		x = 0;
+		while (x < SCREEN_WIDTH)
+		{
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x44C9D4;
+			x++;
+		}
+		y++;
+	}
+	while (y < SCREEN_HEIGHT)
+	{
+		x = 0;
+		while (x < SCREEN_WIDTH)
+		{
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x985A0C;
+			x++;
+		}
+		y++;
+	}
+}
+
+void	ft_draw_walls(t_mlx *mlx)
 {
 	int			x;
 	int			i;
@@ -118,5 +147,4 @@ int		ft_draw(void *mlx_ptr, void *win_ptr, t_mlx *mlx)
 		}
 		x++;
 	}
-	return (0);
 }
