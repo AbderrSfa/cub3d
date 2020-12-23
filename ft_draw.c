@@ -32,7 +32,6 @@ void	ft_draw_sky_floor(t_mlx *mlx)
 void	ft_draw_walls(t_mlx *mlx)
 {
 	int			x;
-	int			i;
 
 	x = 0;
 	while (x < SCREEN_WIDTH)
@@ -121,29 +120,38 @@ void	ft_draw_walls(t_mlx *mlx)
 		int	drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
 		if (drawEnd >= SCREEN_HEIGHT)
 			drawEnd = SCREEN_HEIGHT - 1;
-		
-		//set wall color
-		int	color;
-		if (worldMap[mapX][mapY] == 1)
-				color = 0xCC0044;
-		else if (worldMap[mapX][mapY] == 2)
-				color = 0x3B8E85;
-		else if (worldMap[mapX][mapY] == 3)
-				color = 0x05289D;
-		else if (worldMap[mapX][mapY] == 4)
-				color = 0xA3A3A3;
+
+		//Calculate value of wallX where exactly the wall was hit
+		double	wallX;
+		if (side == 0)
+			wallX = mlx->posY + (perpWallDist * rayDirY);
 		else
-				color = 0xFFDE5C;
-		//x and y sides have different brightness
-		if (side == 1)
-			color = color / 2;
+			wallX = mlx->posX + (perpWallDist * rayDirX);
+		wallX -= floor((wallX));
+
+		//x coordinate on the texture
+		int		texX = (int)(wallX * (double)TEXTURE_WIDTH);
+		if (side == 0 && rayDirX > 0)
+			texX = TEXTURE_WIDTH - texX - 1;
+		if (side == 0 && rayDirY < 0)
+			texX = TEXTURE_WIDTH - texX - 1;
 		
-		//draw the pixels as a vertical line
-		int	pixel_y = drawStart;
-		while (pixel_y < drawEnd)
+		//How much to increase the texture coordinate per screen pixel
+		double	step = (1.0 * TEXTURE_HEIGHT) / lineHeight;
+		//Starting texture coordinate
+		double	texPos = (drawStart - (SCREEN_HEIGHT / 2) + (lineHeight / 2)) * step;
+		int		y = drawStart;
+		while (y < drawEnd)
 		{
-			mlx->img.data[(pixel_y * SCREEN_WIDTH) + x] = color;
-			pixel_y++;
+			//Cast the texture coordinate to integer, and mask with (TEXTURE_HEIGHT - 1) in case of overflow
+			int		texY = (int)texPos & (TEXTURE_HEIGHT - 1);
+			texPos += step;
+			int		color = mlx->img.load_data[(TEXTURE_HEIGHT * texY) + texX];
+			//make color darker for y-sides: R, G, and B byte each divided through two with a "shift" and an "and"
+			if (side == 1)
+				color = (color >> 1) & 8355711;
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = color;
+			y++;
 		}
 		x++;
 	}

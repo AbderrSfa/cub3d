@@ -4,6 +4,8 @@ int		ft_update(t_mlx *mlx)
 {
 	mlx->img.img_ptr = mlx_new_image(mlx->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx->img.data = (int *)mlx_get_data_addr(mlx->img.img_ptr, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->img.texture = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/mossy.XPM", &mlx->img.width, &mlx->img.height);
+	mlx->img.load_data = (int *)mlx_get_data_addr(mlx->img.texture, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
 	mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
 	ft_movement(mlx);
 	ft_draw_sky_floor(mlx);

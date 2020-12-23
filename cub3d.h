@@ -12,11 +12,21 @@
 # define MAP_HEIGHT 24
 # define SCREEN_WIDTH 640
 # define SCREEN_HEIGHT 480
+# define TEXTURE_WIDTH 64
+# define TEXTURE_HEIGHT 64
 
 typedef struct	s_img
 {
 	void		*img_ptr;
+
+	void		*texture;
+
 	int			*data;
+	int			*load_data;
+
+	int			height;
+	int			width;
+
 	int			size_l;
 	int			bpp;
 	int			endian;	
