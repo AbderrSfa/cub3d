@@ -10,27 +10,37 @@
 
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
-# define SCREEN_WIDTH 640
-# define SCREEN_HEIGHT 480
+# define SCREEN_WIDTH 1280
+# define SCREEN_HEIGHT 960
 # define TEXTURE_WIDTH 64
 # define TEXTURE_HEIGHT 64
 
 typedef struct	s_img
 {
 	void		*img_ptr;
-
-	void		*texture;
-
 	int			*data;
-	int			*load_data;
-
-	int			height;
-	int			width;
 
 	int			size_l;
 	int			bpp;
 	int			endian;	
 }				t_img;
+
+typedef struct	s_tex
+{
+	int			*texture_data[8];
+
+	void		*texture_1;
+	void		*texture_2;
+	void		*texture_3;
+	void		*texture_4;
+	void		*texture_5;
+	void		*texture_6;
+	void		*texture_7;
+	void		*texture_8;
+
+	int			height;
+	int			width;
+}				t_tex;
 
 typedef struct	s_keys
 {
@@ -54,8 +64,9 @@ typedef struct	s_mlx
 	double		planeY;			//y camera coordinate
 	double		moveSpeed;
 	double		rotSpeed;
-	t_img		img;
 	t_keys		keys;
+	t_img		img;
+	t_tex		tex;
 }				t_mlx;
 
 int 	worldMap[MAP_WIDTH][MAP_HEIGHT];

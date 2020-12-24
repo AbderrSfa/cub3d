@@ -122,6 +122,26 @@ void	ft_draw_walls(t_mlx *mlx)
 			drawEnd = SCREEN_HEIGHT - 1;
 
 		//Calculate value of wallX where exactly the wall was hit
+
+		//texturing calculations
+/* 		int		texNum;
+		if (worldMap[mapX][mapY] == 1)
+			texNum = 0;
+		else if (worldMap[mapX][mapY] == 2)
+			texNum = 1;
+		else if (worldMap[mapX][mapY] == 3)
+			texNum = 2;
+		else if (worldMap[mapX][mapY] == 4)
+			texNum = 3;
+		else if (worldMap[mapX][mapY] == 5)
+			texNum = 4;
+		else if (worldMap[mapX][mapY] == 6)
+			texNum = 5;
+		else
+			texNum = 6; */
+		
+      	int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+
 		double	wallX;
 		if (side == 0)
 			wallX = mlx->posY + (perpWallDist * rayDirY);
@@ -133,7 +153,7 @@ void	ft_draw_walls(t_mlx *mlx)
 		int		texX = (int)(wallX * (double)TEXTURE_WIDTH);
 		if (side == 0 && rayDirX > 0)
 			texX = TEXTURE_WIDTH - texX - 1;
-		if (side == 0 && rayDirY < 0)
+		else if (side == 1 && rayDirY < 0)
 			texX = TEXTURE_WIDTH - texX - 1;
 		
 		//How much to increase the texture coordinate per screen pixel
@@ -146,7 +166,7 @@ void	ft_draw_walls(t_mlx *mlx)
 			//Cast the texture coordinate to integer, and mask with (TEXTURE_HEIGHT - 1) in case of overflow
 			int		texY = (int)texPos & (TEXTURE_HEIGHT - 1);
 			texPos += step;
-			int		color = mlx->img.load_data[(TEXTURE_HEIGHT * texY) + texX];
+			int		color = mlx->tex.texture_data[texNum][(TEXTURE_HEIGHT * texY) + texX];
 			//make color darker for y-sides: R, G, and B byte each divided through two with a "shift" and an "and"
 			if (side == 1)
 				color = (color >> 1) & 8355711;

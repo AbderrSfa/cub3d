@@ -28,6 +28,26 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] =
   {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
 };
 
+void  load_textures(t_mlx *mlx)
+{
+	mlx->tex.texture_1 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/eagle.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[0] = (int *)mlx_get_data_addr(mlx->tex.texture_1, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex.texture_2 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/wood.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[1] = (int *)mlx_get_data_addr(mlx->tex.texture_2, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex.texture_3 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/purplestone.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[2] = (int *)mlx_get_data_addr(mlx->tex.texture_3, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex.texture_4 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/mossy.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[3] = (int *)mlx_get_data_addr(mlx->tex.texture_4, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex.texture_5 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/bluestone.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[4] = (int *)mlx_get_data_addr(mlx->tex.texture_5, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex.texture_6 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/redbrick.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[5] = (int *)mlx_get_data_addr(mlx->tex.texture_6, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex.texture_7 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/greystone.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[6] = (int *)mlx_get_data_addr(mlx->tex.texture_7, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex.texture_8 = mlx_xpm_file_to_image(mlx->mlx_ptr, "./textures/colorstone.XPM", &mlx->tex.width, &mlx->tex.height);
+	mlx->tex.texture_data[7] = (int *)mlx_get_data_addr(mlx->tex.texture_8, &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+}
+
 void	ft_initialize(t_mlx *mlx)
 {
 	mlx->posX = 22;
@@ -40,6 +60,7 @@ void	ft_initialize(t_mlx *mlx)
 	mlx->rotSpeed = 0.05;
 	mlx->mlx_ptr = mlx_init();
 	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3d");
+  load_textures(mlx);
 }
 
 int		main()
