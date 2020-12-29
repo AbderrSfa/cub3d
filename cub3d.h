@@ -77,6 +77,15 @@ typedef struct	s_mlx
 	double		planeY;			//y camera coordinate
 	double		moveSpeed;
 	double		rotSpeed;
+	int			mapX;
+	int			mapY;
+	int			side;			//was it a NS or a EW wall hit;
+	double		perpWallDist;
+	double		rayDirX;
+	double		rayDirY;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
 	t_keys		keys;
 	t_img		img;
 	t_tex		tex;
@@ -89,8 +98,6 @@ double		ZBuffer[SCREEN_WIDTH];
 int			spriteOrder[NUM_SPRITES];
 double		spriteDistance[NUM_SPRITES];
 
-void	sortSprites(int *order, double *dist, int amount);
-void	ft_sprites(t_mlx *mlx);
 void	ft_initialize(t_mlx *mlx);
 int		ft_update(t_mlx *mlx);
 void	ft_movement(t_mlx *mlx);
@@ -99,6 +106,9 @@ int		ft_key_pressed(int key, t_mlx *mlx);
 int		ft_key_released(int key, t_mlx *mlx);
 void	ft_draw_sky_floor(t_mlx *mlx);
 void	ft_draw_walls(t_mlx *mlx);
+void	ft_texture(t_mlx *mlx, int x);
+void	sortSprites(int *order, double *dist, int amount);
+void	ft_sprites(t_mlx *mlx);
 void	ft_putchar(char c);
 void	ft_putstr(char *s);
 void	ft_putnbr(long n);
