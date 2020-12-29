@@ -10,10 +10,14 @@
 
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
+
 # define SCREEN_WIDTH 1280
-# define SCREEN_HEIGHT 960
-# define TEXTURE_WIDTH 64
-# define TEXTURE_HEIGHT 64
+# define SCREEN_HEIGHT 720
+
+# define TEXTURE_WIDTH mlx->tex.width
+# define TEXTURE_HEIGHT mlx->tex.height
+
+# define NUM_SPRITES 19
 
 typedef struct	s_img
 {
@@ -27,7 +31,7 @@ typedef struct	s_img
 
 typedef struct	s_tex
 {
-	int			*texture_data[8];
+	int			*texture_data[9];
 
 	void		*texture_1;
 	void		*texture_2;
@@ -37,10 +41,19 @@ typedef struct	s_tex
 	void		*texture_6;
 	void		*texture_7;
 	void		*texture_8;
+	void		*texture_9;
 
 	int			height;
 	int			width;
 }				t_tex;
+
+typedef struct	s_sprite
+{
+	double		x;
+	double		y;
+	int			texture;
+}				t_sprite;
+
 
 typedef struct	s_keys
 {
@@ -69,8 +82,15 @@ typedef struct	s_mlx
 	t_tex		tex;
 }				t_mlx;
 
-int 	worldMap[MAP_WIDTH][MAP_HEIGHT];
+int 		worldMap[MAP_WIDTH][MAP_HEIGHT];
 
+t_sprite	sprite[NUM_SPRITES];
+double		ZBuffer[SCREEN_WIDTH];
+int			spriteOrder[NUM_SPRITES];
+double		spriteDistance[NUM_SPRITES];
+
+void	sortSprites(int *order, double *dist, int amount);
+void	ft_sprites(t_mlx *mlx);
 void	ft_initialize(t_mlx *mlx);
 int		ft_update(t_mlx *mlx);
 void	ft_movement(t_mlx *mlx);

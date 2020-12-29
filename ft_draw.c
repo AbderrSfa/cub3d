@@ -12,7 +12,7 @@ void	ft_draw_sky_floor(t_mlx *mlx)
 		x = 0;
 		while (x < SCREEN_WIDTH)
 		{
-			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x44C9D4;
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x1A1A1A;
 			x++;
 		}
 		y++;
@@ -22,7 +22,7 @@ void	ft_draw_sky_floor(t_mlx *mlx)
 		x = 0;
 		while (x < SCREEN_WIDTH)
 		{
-			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x985A0C;
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x555555;
 			x++;
 		}
 		y++;
@@ -121,27 +121,10 @@ void	ft_draw_walls(t_mlx *mlx)
 		if (drawEnd >= SCREEN_HEIGHT)
 			drawEnd = SCREEN_HEIGHT - 1;
 
-		//Calculate value of wallX where exactly the wall was hit
-
 		//texturing calculations
-/* 		int		texNum;
-		if (worldMap[mapX][mapY] == 1)
-			texNum = 0;
-		else if (worldMap[mapX][mapY] == 2)
-			texNum = 1;
-		else if (worldMap[mapX][mapY] == 3)
-			texNum = 2;
-		else if (worldMap[mapX][mapY] == 4)
-			texNum = 3;
-		else if (worldMap[mapX][mapY] == 5)
-			texNum = 4;
-		else if (worldMap[mapX][mapY] == 6)
-			texNum = 5;
-		else
-			texNum = 6; */
-		
       	int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 
+		//Calculate value of wallX where exactly the wall was hit
 		double	wallX;
 		if (side == 0)
 			wallX = mlx->posY + (perpWallDist * rayDirY);
@@ -173,6 +156,91 @@ void	ft_draw_walls(t_mlx *mlx)
 			mlx->img.data[(y * SCREEN_WIDTH) + x] = color;
 			y++;
 		}
+      	//SET THE ZBUFFER FOR THE SPRITE CASTING
+      	ZBuffer[x] = perpWallDist; //perpendicular distance is used
 		x++;
+	}
+	ft_sprites(mlx);
+}
+
+void	ft_sprites(t_mlx *mlx)
+{
+//SPRITE CASTING
+    //sort sprites from far to close
+	int		i = 0;
+	while (i < NUM_SPRITES)
+	{
+ 		spriteOrder[i] = i;
+    	spriteDistance[i] = ((mlx->posX - sprite[i].x) * (mlx->posX - sprite[i].x) + (mlx->posY - sprite[i].y) * (mlx->posY - sprite[i].y)); //sqrt not taken, unneeded
+		i++;
+	}
+    //sortSprites(spriteOrder, spriteDistance, NUM_SPRITES);
+
+	//after sorting the sprites, do the projection and draw them
+	i = 0;
+	while (i < NUM_SPRITES)
+	{
+		//translate sprite position to relative to camera
+    	double spriteX = sprite[spriteOrder[i]].x - mlx->posX;
+    	double spriteY = sprite[spriteOrder[i]].y - mlx->posY;
+
+    	//transform sprite with the inverse camera matrix
+		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+    	// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+    	// [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+		double invDet = 1.0 / (mlx->planeX * mlx->dirY - mlx->dirX * mlx->planeY); //required for correct matrix multiplication
+
+		double transformX = invDet * (mlx->dirY * spriteX - mlx->dirX * spriteY);
+		double transformY = invDet * (-mlx->planeY * spriteX + mlx->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+		int spriteScreenX = (int)(SCREEN_WIDTH / 2) * (1 + transformX / transformY);
+
+		//calculate height of the sprite on screen
+		int spriteHeight = abs((int)(SCREEN_HEIGHT / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStartY = -spriteHeight / 2 + SCREEN_HEIGHT / 2;
+		if(drawStartY < 0)
+			drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + SCREEN_HEIGHT / 2;
+		if(drawEndY >= SCREEN_HEIGHT)
+			drawEndY = SCREEN_HEIGHT - 1;
+
+		//calculate width of the sprite
+		int spriteWidth = abs((int)(SCREEN_HEIGHT / (transformY)));
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if(drawStartX < 0)
+			drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if(drawEndX >= SCREEN_WIDTH)
+			drawEndX = SCREEN_WIDTH - 1;
+		
+      	//loop through every vertical stripe of the sprite on screen
+		int	stripe = drawStartX;
+		while (stripe < drawEndX)
+		{
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * TEXTURE_WIDTH / spriteWidth) / 256;
+        	//the conditions in the if are:
+        	//1) it's in front of camera plane so you don't see things behind you
+        	//2) it's on the screen (left)
+        	//3) it's on the screen (right)
+        	//4) ZBuffer, with perpendicular distance
+        	if(transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH && transformY < ZBuffer[stripe])
+			{
+				int	y = drawStartY;
+				while (y < drawEndY)
+				{
+			        int d = (y) * 256 - SCREEN_HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+        			int texY = ((d * TEXTURE_HEIGHT) / spriteHeight) / 256;
+					int	color = mlx->tex.texture_data[8][(TEXTURE_WIDTH * texY) + texX]; //get current color from the texture
+					if (color != 0) //paint pixel if it isn't black, black is the invisible color
+						mlx->img.data[(y * SCREEN_WIDTH) + stripe] = color;					
+					y++;
+				}
+			}
+			stripe++;
+		}
+		i++;
 	}
 }
