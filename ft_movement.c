@@ -4,48 +4,48 @@ void	ft_movement(t_mlx *mlx)
 {
 	if (mlx->keys.W == 1)
 	{
-		if (worldMap[(int)(mlx->posX + mlx->dirX * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX += mlx->dirX * mlx->moveSpeed * 0.5;
-		if (worldMap[(int)mlx->posX][(int)(mlx->posY + mlx->dirY * mlx->moveSpeed)] == 0)
-			mlx->posY += mlx->dirY * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)(mlx->player.posX + mlx->player.dirX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+			mlx->player.posX += mlx->player.dirX * mlx->player.moveSpeed * 0.5;
+		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY + mlx->player.dirY * mlx->player.moveSpeed)] == 0)
+			mlx->player.posY += mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.S == 1)
 	{
-		if (worldMap[(int)(mlx->posX - mlx->dirX * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX -= mlx->dirX * mlx->moveSpeed * 0.5;
-		if (worldMap[(int)mlx->posX][(int)(mlx->posY - mlx->dirY * mlx->moveSpeed)] == 0)
-			mlx->posY -= mlx->dirY * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)(mlx->player.posX - mlx->player.dirX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+			mlx->player.posX -= mlx->player.dirX * mlx->player.moveSpeed * 0.5;
+		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY - mlx->player.dirY * mlx->player.moveSpeed)] == 0)
+			mlx->player.posY -= mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.D == 1)
 	{
-		if (worldMap[(int)mlx->posX][(int)(mlx->posY - mlx->dirX * mlx->moveSpeed)] == 0)
-			mlx->posY -= mlx->dirX * mlx->moveSpeed * 0.5;
-		if (worldMap[(int)(mlx->posX + mlx->dirY * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX += mlx->dirY * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY - mlx->player.dirX * mlx->player.moveSpeed)] == 0)
+			mlx->player.posY -= mlx->player.dirX * mlx->player.moveSpeed * 0.5;
+		if (worldMap[(int)(mlx->player.posX + mlx->player.dirY * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+			mlx->player.posX += mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.A == 1)
 	{
-		if (worldMap[(int)mlx->posX][(int)(mlx->posY + mlx->dirX * mlx->moveSpeed)] == 0)
-			mlx->posY += mlx->dirX * mlx->moveSpeed * 0.5;
-		if (worldMap[(int)(mlx->posX - mlx->dirY * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX -= mlx->dirY * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY + mlx->player.dirX * mlx->player.moveSpeed)] == 0)
+			mlx->player.posY += mlx->player.dirX * mlx->player.moveSpeed * 0.5;
+		if (worldMap[(int)(mlx->player.posX - mlx->player.dirY * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+			mlx->player.posX -= mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	//strafe to the right and left like in Lodev
 /* 	if (mlx->keys.D == 1)
 	{
-		if (worldMap[(int)(mlx->posX + mlx->planeX * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX += mlx->planeX * mlx->moveSpeed * 0.5;
-		if (worldMap[(int)mlx->posX][(int)(mlx->posY + mlx->planeY * mlx->moveSpeed)] == 0)
-			mlx->posY += mlx->planeY * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)(mlx->player.posX + mlx->player.planeX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+			mlx->player.posX += mlx->player.planeX * mlx->player.moveSpeed * 0.5;
+		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY + mlx->player.planeY * mlx->player.moveSpeed)] == 0)
+			mlx->player.posY += mlx->player.planeY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.A == 1)
 	{
-		if (worldMap[(int)(mlx->posX - mlx->planeX * mlx->moveSpeed)][(int)mlx->posY] == 0)
-			mlx->posX -= mlx->planeX * mlx->moveSpeed * 0.5;
-		if (worldMap[(int)mlx->posX][(int)(mlx->posY - mlx->planeY * mlx->moveSpeed)] == 0)
-			mlx->posY -= mlx->planeY * mlx->moveSpeed * 0.5;
+		if (worldMap[(int)(mlx->player.posX - mlx->player.planeX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+			mlx->player.posX -= mlx->player.planeX * mlx->player.moveSpeed * 0.5;
+		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY - mlx->player.planeY * mlx->player.moveSpeed)] == 0)
+			mlx->player.posY -= mlx->player.planeY * mlx->player.moveSpeed * 0.5;
 	} */
-	if (mlx->keys.right == 1 || mlx->keys.left)
+	if (mlx->keys.right == 1 || mlx->keys.left == 1)
 		ft_rotation(mlx);
 }
 
@@ -53,21 +53,21 @@ void	ft_rotation(t_mlx *mlx)
 {
 	if (mlx->keys.right == 1)
 	{
-		double oldDirX = mlx->dirX;
-		mlx->dirX = (mlx->dirX * cos(-mlx->rotSpeed)) - (mlx->dirY * sin(-mlx->rotSpeed));
-		mlx->dirY = (oldDirX * sin(-mlx->rotSpeed)) + (mlx->dirY * cos(-mlx->rotSpeed));
-		double oldPlaneX = mlx->planeX;
-		mlx->planeX = (mlx->planeX * cos(-mlx->rotSpeed)) - (mlx->planeY * sin(-mlx->rotSpeed));
-		mlx->planeY = (oldPlaneX * sin(-mlx->rotSpeed)) + (mlx->planeY * cos(-mlx->rotSpeed));
+		double oldDirX = mlx->player.dirX;
+		mlx->player.dirX = (mlx->player.dirX * cos(-mlx->player.rotSpeed)) - (mlx->player.dirY * sin(-mlx->player.rotSpeed));
+		mlx->player.dirY = (oldDirX * sin(-mlx->player.rotSpeed)) + (mlx->player.dirY * cos(-mlx->player.rotSpeed));
+		double oldPlaneX = mlx->player.planeX;
+		mlx->player.planeX = (mlx->player.planeX * cos(-mlx->player.rotSpeed)) - (mlx->player.planeY * sin(-mlx->player.rotSpeed));
+		mlx->player.planeY = (oldPlaneX * sin(-mlx->player.rotSpeed)) + (mlx->player.planeY * cos(-mlx->player.rotSpeed));
 	}
 	if (mlx->keys.left == 1)
 	{
-		double oldDirX = mlx->dirX;
-		mlx->dirX = (mlx->dirX * cos(mlx->rotSpeed)) - (mlx->dirY * sin(mlx->rotSpeed));
-		mlx->dirY = (oldDirX * sin(mlx->rotSpeed)) + (mlx->dirY * cos(mlx->rotSpeed));
-		double oldPlaneX = mlx->planeX;
-		mlx->planeX = (mlx->planeX * cos(mlx->rotSpeed)) - (mlx->planeY * sin(mlx->rotSpeed));
-		mlx->planeY = (oldPlaneX * sin(mlx->rotSpeed)) + (mlx->planeY * cos(mlx->rotSpeed));
+		double oldDirX = mlx->player.dirX;
+		mlx->player.dirX = (mlx->player.dirX * cos(mlx->player.rotSpeed)) - (mlx->player.dirY * sin(mlx->player.rotSpeed));
+		mlx->player.dirY = (oldDirX * sin(mlx->player.rotSpeed)) + (mlx->player.dirY * cos(mlx->player.rotSpeed));
+		double oldPlaneX = mlx->player.planeX;
+		mlx->player.planeX = (mlx->player.planeX * cos(mlx->player.rotSpeed)) - (mlx->player.planeY * sin(mlx->player.rotSpeed));
+		mlx->player.planeY = (oldPlaneX * sin(mlx->player.rotSpeed)) + (mlx->player.planeY * cos(mlx->player.rotSpeed));
 	}
 }
 

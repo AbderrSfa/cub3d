@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-void	ft_draw_sky_floor(t_mlx *mlx)
+void	ft_draw_ceiling_floor(t_mlx *mlx)
 {
-	int		x;
+/* 	int		x;
 	int		y;
 
 	x = 0;
@@ -26,6 +26,61 @@ void	ft_draw_sky_floor(t_mlx *mlx)
 			x++;
 		}
 		y++;
+	} */
+	int		y;
+
+	y = 0;
+	while (y < SCREEN_HEIGHT)
+	{
+		float rayDirX0 = mlx->player.dirX - mlx->player.planeX;
+		float rayDirY0 = mlx->player.dirY - mlx->player.planeY;
+		float rayDirX1 = mlx->player.dirX + mlx->player.planeX;
+		float rayDirY1 = mlx->player.dirY + mlx->player.planeY;
+
+		// Current y position compared to the center of the screen (the horizon)
+		int p = y - SCREEN_HEIGHT / 2;
+
+		// Vertical position of the camera.
+		float posZ = 0.5 * SCREEN_HEIGHT;
+
+		// Horizontal distance from the camera to the floor for the current row.
+		// 0.5 is the z position exactly in the middle between floor and ceiling.
+		float rowDistance = posZ / p;
+
+		// calculate the real world step vector we have to add for each x (parallel to camera plane)
+		// adding step by step avoids multiplications with a weight in the inner loop
+		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
+		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
+
+		// real world coordinates of the leftmost column. This will be updated as we step to the right.
+		float floorX = mlx->player.posX + rowDistance * rayDirX0;
+		float floorY = mlx->player.posY + rowDistance * rayDirY0;
+		int	x = 0;
+		while (x < SCREEN_WIDTH)
+		{
+			// the cell coord is simply got from the integer parts of floorX and floorY
+			int cellX = (int)floorX;
+			int cellY = (int)floorY;
+
+			// get the texture coordinate from the fractional part
+			int tx = (int)(TEXTURE_WIDTH * (floorX - cellX)) & (TEXTURE_WIDTH - 1);
+			int ty = (int)(TEXTURE_HEIGHT * (floorY - cellY)) & (TEXTURE_HEIGHT - 1);
+
+			floorX += floorStepX;
+			floorY += floorStepY;
+
+			int	color = mlx->tex.texture_data[6][(TEXTURE_WIDTH * ty) + tx];
+			color = (color >> 1) & 8355711; // make a bit darker
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = color;
+
+			//ceiling (symmetrical, at screenHeight - y - 1 instead of y)
+			color = mlx->tex.texture_data[1][(TEXTURE_WIDTH * ty) + tx];
+			color = (color >> 1) & 8355711; // make a bit darker
+			//buffer[screenHeight - y - 1][x] = color;
+			mlx->img.data[(SCREEN_HEIGHT - y - 1) * SCREEN_WIDTH + x] = color;
+			x++;
+		}
+		y++;
 	}
 }
 
@@ -38,12 +93,12 @@ void	ft_draw_walls(t_mlx *mlx)
 	{
 		//calculate ray position and direction
 		double	cameraX = 2 * x / (double)SCREEN_WIDTH - 1;		//x coordinate in camera screen
-		mlx->rayDirX = mlx->dirX + mlx->planeX * cameraX;
-		mlx->rayDirY = mlx->dirY + mlx->planeY * cameraX;
+		mlx->rayDirX = mlx->player.dirX + mlx->player.planeX * cameraX;
+		mlx->rayDirY = mlx->player.dirY + mlx->player.planeY * cameraX;
 
 		//which box in the map we're in
-		mlx->mapX = (int)mlx->posX;
-		mlx->mapY = (int)mlx->posY;
+		mlx->mapX = (int)mlx->player.posX;
+		mlx->mapY = (int)mlx->player.posY;
 
 		//length of ray from current position to next or y-side
 		double	sideDistX;
@@ -63,22 +118,22 @@ void	ft_draw_walls(t_mlx *mlx)
 		if (mlx->rayDirX < 0)
 		{
 			stepX = -1;
-			sideDistX = (mlx->posX - mlx->mapX) * deltaDistX;
+			sideDistX = (mlx->player.posX - mlx->mapX) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mlx->mapX + 1.0 - mlx->posX) * deltaDistX;
+			sideDistX = (mlx->mapX + 1.0 - mlx->player.posX) * deltaDistX;
 		}
 		if (mlx->rayDirY < 0)
 		{
 			stepY = -1;
-			sideDistY = (mlx->posY - mlx->mapY) * deltaDistY;
+			sideDistY = (mlx->player.posY - mlx->mapY) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mlx->mapY + 1.0 - mlx->posY) * deltaDistY;
+			sideDistY = (mlx->mapY + 1.0 - mlx->player.posY) * deltaDistY;
 		}
 		
 		//DDA algorithm starts
@@ -104,9 +159,9 @@ void	ft_draw_walls(t_mlx *mlx)
 
 		//calculate distance projected on camera direction
 		if (mlx->side == 0)
-			mlx->perpWallDist = (mlx->mapX - mlx->posX + (1 - stepX) / 2) / mlx->rayDirX;
+			mlx->perpWallDist = (mlx->mapX - mlx->player.posX + (1 - stepX) / 2) / mlx->rayDirX;
 		else
-			mlx->perpWallDist = (mlx->mapY - mlx->posY + (1 - stepY) / 2) / mlx->rayDirY;
+			mlx->perpWallDist = (mlx->mapY - mlx->player.posY + (1 - stepY) / 2) / mlx->rayDirY;
 
 		//calculate height of line to draw on screen
 		mlx->lineHeight = (int)(SCREEN_HEIGHT / mlx->perpWallDist);
@@ -135,9 +190,9 @@ void	ft_texture(t_mlx *mlx, int x)
 	//Calculate value of wallX where exactly the wall was hit
 	double	wallX;
 	if (mlx->side == 0)
-		wallX = mlx->posY + (mlx->perpWallDist * mlx->rayDirY);
+		wallX = mlx->player.posY + (mlx->perpWallDist * mlx->rayDirY);
 	else
-		wallX = mlx->posX + (mlx->perpWallDist * mlx->rayDirX);
+		wallX = mlx->player.posX + (mlx->perpWallDist * mlx->rayDirX);
 	wallX -= floor((wallX));
 
 	//x coordinate on the texture
@@ -174,7 +229,7 @@ void	ft_sprites(t_mlx *mlx)
 	while (i < NUM_SPRITES)
 	{
  		spriteOrder[i] = i;
-    	spriteDistance[i] = ((mlx->posX - sprite[i].x) * (mlx->posX - sprite[i].x) + (mlx->posY - sprite[i].y) * (mlx->posY - sprite[i].y)); //sqrt not taken, unneeded
+    	spriteDistance[i] = ((mlx->player.posX - sprite[i].x) * (mlx->player.posX - sprite[i].x) + (mlx->player.posY - sprite[i].y) * (mlx->player.posY - sprite[i].y)); //sqrt not taken, unneeded
 		i++;
 	}
     //sortSprites(spriteOrder, spriteDistance, NUM_SPRITES);
@@ -184,18 +239,18 @@ void	ft_sprites(t_mlx *mlx)
 	while (i < NUM_SPRITES)
 	{
 		//translate sprite position to relative to camera
-    	double spriteX = sprite[spriteOrder[i]].x - mlx->posX;
-    	double spriteY = sprite[spriteOrder[i]].y - mlx->posY;
+    	double spriteX = sprite[spriteOrder[i]].x - mlx->player.posX;
+    	double spriteY = sprite[spriteOrder[i]].y - mlx->player.posY;
 
     	//transform sprite with the inverse camera matrix
 		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
     	// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
     	// [ planeY   dirY ]                                          [ -planeY  planeX ]
 
-		double invDet = 1.0 / (mlx->planeX * mlx->dirY - mlx->dirX * mlx->planeY); //required for correct matrix multiplication
+		double invDet = 1.0 / (mlx->player.planeX * mlx->player.dirY - mlx->player.dirX * mlx->player.planeY); //required for correct matrix multiplication
 
-		double transformX = invDet * (mlx->dirY * spriteX - mlx->dirX * spriteY);
-		double transformY = invDet * (-mlx->planeY * spriteX + mlx->planeX * spriteY); //this is actually the depth inmlx->side the screen, that what Z is in 3D
+		double transformX = invDet * (mlx->player.dirY * spriteX - mlx->player.dirX * spriteY);
+		double transformY = invDet * (-mlx->player.planeY * spriteX + mlx->player.planeX * spriteY); //this is actually the depth inmlx->side the screen, that what Z is in 3D
 
 		int spriteScreenX = (int)(SCREEN_WIDTH / 2) * (1 + transformX / transformY);
 

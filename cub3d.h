@@ -19,6 +19,36 @@
 
 # define NUM_SPRITES 19
 
+typedef struct	s_window
+{
+	void    	*mlx_ptr;
+	void		*win_ptr;
+	int			screen_width;
+	int			screen_height;
+}				t_window;
+
+typedef struct	s_player
+{
+	double		posX;			//x start position of player
+	double		posY;			//y start position of player
+	double		dirX;			//x coordinate of direction
+	double		dirY;			//y coordinate of direction
+	double		planeX;			//x camera coordinate
+	double		planeY;			//y camera coordinate
+	double		moveSpeed;
+	double		rotSpeed;
+}				t_player;
+
+typedef struct	s_keys
+{
+	int			left;
+	int			right;
+	int			W;
+	int			S;
+	int			A;
+	int			D;
+}       		t_keys;
+
 typedef struct	s_img
 {
 	void		*img_ptr;
@@ -51,32 +81,10 @@ typedef struct	s_sprite
 {
 	double		x;
 	double		y;
-	int			texture;
 }				t_sprite;
-
-
-typedef struct	s_keys
-{
-	int			left;
-	int			right;
-	int			W;
-	int			S;
-	int			A;
-	int			D;
-}       		t_keys;
 
 typedef struct	s_mlx
 {
-	void    	*mlx_ptr;
-	void		*win_ptr;
-	double		posX;			//x start position of player
-	double		posY;			//y start position of player
-	double		dirX;			//x coordinate of direction
-	double		dirY;			//y coordinate of direction
-	double		planeX;			//x camera coordinate
-	double		planeY;			//y camera coordinate
-	double		moveSpeed;
-	double		rotSpeed;
 	int			mapX;
 	int			mapY;
 	int			side;			//was it a NS or a EW wall hit;
@@ -86,31 +94,33 @@ typedef struct	s_mlx
 	int			lineHeight;
 	int			drawStart;
 	int			drawEnd;
+	t_window	window;
+	t_player	player;
 	t_keys		keys;
 	t_img		img;
 	t_tex		tex;
 }				t_mlx;
 
-int 		worldMap[MAP_WIDTH][MAP_HEIGHT];
+int 			worldMap[MAP_WIDTH][MAP_HEIGHT];
 
-t_sprite	sprite[NUM_SPRITES];
-double		ZBuffer[SCREEN_WIDTH];
-int			spriteOrder[NUM_SPRITES];
-double		spriteDistance[NUM_SPRITES];
+t_sprite		sprite[NUM_SPRITES];
+double			ZBuffer[SCREEN_WIDTH];
+int				spriteOrder[NUM_SPRITES];
+double			spriteDistance[NUM_SPRITES];
 
-void	ft_initialize(t_mlx *mlx);
-int		ft_update(t_mlx *mlx);
-void	ft_movement(t_mlx *mlx);
-void	ft_rotation(t_mlx *mlx);
-int		ft_key_pressed(int key, t_mlx *mlx);
-int		ft_key_released(int key, t_mlx *mlx);
-void	ft_draw_sky_floor(t_mlx *mlx);
-void	ft_draw_walls(t_mlx *mlx);
-void	ft_texture(t_mlx *mlx, int x);
-void	sortSprites(int *order, double *dist, int amount);
-void	ft_sprites(t_mlx *mlx);
-void	ft_putchar(char c);
-void	ft_putstr(char *s);
-void	ft_putnbr(long n);
+void			ft_initialize(t_mlx *mlx);
+int				ft_update(t_mlx *mlx);
+void			ft_movement(t_mlx *mlx);
+void			ft_rotation(t_mlx *mlx);
+int				ft_key_pressed(int key, t_mlx *mlx);
+int				ft_key_released(int key, t_mlx *mlx);
+void			ft_draw_ceiling_floor(t_mlx *mlx);
+void			ft_draw_walls(t_mlx *mlx);
+void			ft_texture(t_mlx *mlx, int x);
+//void			sortSprites(int *order, double *dist, int amount);
+void			ft_sprites(t_mlx *mlx);
+void			ft_putchar(char c);
+void			ft_putstr(char *s);
+void			ft_putnbr(long n);
 
 #endif
