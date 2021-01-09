@@ -1,0 +1,14 @@
+R 1280    720    
+     
+S ./textures/greenlight.XPM   
+
+C        66,  66, 66  
+F     136,    160,   178
+
+     NO         ./textures/greystone.XPM  
+
+
+SO        ./textures/redbrick.XPM   
+WE       ./textures/colorstone.XPM   
+ 
+EA        ./textures/eagle.XPM   

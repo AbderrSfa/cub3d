@@ -2,7 +2,7 @@
 
 void	ft_draw_ceiling_floor(t_mlx *mlx)
 {
-/* 	int		x;
+	int		x;
 	int		y;
 
 	x = 0;
@@ -12,7 +12,7 @@ void	ft_draw_ceiling_floor(t_mlx *mlx)
 		x = 0;
 		while (x < SCREEN_WIDTH)
 		{
-			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x1A1A1A;
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = mlx->window.ceiling_color;
 			x++;
 		}
 		y++;
@@ -22,12 +22,12 @@ void	ft_draw_ceiling_floor(t_mlx *mlx)
 		x = 0;
 		while (x < SCREEN_WIDTH)
 		{
-			mlx->img.data[(y * SCREEN_WIDTH) + x] = 0x555555;
+			mlx->img.data[(y * SCREEN_WIDTH) + x] = mlx->window.floor_color;
 			x++;
 		}
 		y++;
-	} */
-	int		y;
+	}
+/* 	int		y;
 
 	y = 0;
 	while (y < SCREEN_HEIGHT)
@@ -81,7 +81,7 @@ void	ft_draw_ceiling_floor(t_mlx *mlx)
 			x++;
 		}
 		y++;
-	}
+	} */
 }
 
 void	ft_draw_walls(t_mlx *mlx)
@@ -184,8 +184,8 @@ void	ft_draw_walls(t_mlx *mlx)
 
 void	ft_texture(t_mlx *mlx, int x)
 {
-	//texturing calculations
-	int texNum = worldMap[mlx->mapX][mlx->mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+/* 	//texturing calculations
+	int texNum = worldMap[mlx->mapX][mlx->mapY] - 1; //1 subtracted from it so that texture 0 can be used! */
 
 	//Calculate value of wallX where exactly the wall was hit
 	double	wallX;
@@ -212,10 +212,14 @@ void	ft_texture(t_mlx *mlx, int x)
 		//Cast the texture coordinate to integer, and mask with (TEXTURE_HEIGHT - 1) in case of overflow
 		int		texY = (int)texPos & (TEXTURE_HEIGHT - 1);
 		texPos += step;
-		int		color = mlx->tex.texture_data[texNum][(TEXTURE_HEIGHT * texY) + texX];
+		int		color;
+		if (mlx->side == 0)
+			color = mlx->tex.texture_data[0][(TEXTURE_HEIGHT * texY) + texX];
 		//make color darker for y-sides: R, G, and B byte each divided through two with a "shift" and an "and"
-		if (mlx->side == 1)
-			color = (color >> 1) & 8355711;
+		else
+			color = mlx->tex.texture_data[1][(TEXTURE_HEIGHT * texY) + texX];
+/* 		if (mlx->side == 1)
+			color = (color >> 1) & 8355711; */
 		mlx->img.data[(y * SCREEN_WIDTH) + x] = color;
 		y++;
 	}
@@ -291,7 +295,7 @@ void	ft_sprites(t_mlx *mlx)
 				{
 			        int d = (y) * 256 - SCREEN_HEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
         			int texY = ((d * TEXTURE_HEIGHT) / spriteHeight) / 256;
-					int	color = mlx->tex.texture_data[8][(TEXTURE_WIDTH * texY) + texX]; //get current color from the texture
+					int	color = mlx->tex.sp_texture_data[(TEXTURE_WIDTH * texY) + texX]; //get current color from the texture
 					if (color != 0) //paint pixel if it isn't black, black is the invisible color
 						mlx->img.data[(y * SCREEN_WIDTH) + stripe] = color;					
 					y++;
