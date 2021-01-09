@@ -197,29 +197,84 @@ void	ft_texture(t_mlx *mlx, int x)
 
 	//x coordinate on the texture
 	int		texX = (int)(wallX * (double)TEXTURE_WIDTH);
-	if (mlx->side == 0 && mlx->rayDirX > 0)
+/* 	if (mlx->side == 0 && mlx->rayDirX > 0)
 		texX = TEXTURE_WIDTH - texX - 1;
 	else if (mlx->side == 1 && mlx->rayDirY < 0)
+		texX = TEXTURE_WIDTH - texX - 1; */
+	if (mlx->side == 0)
+	{
+		if (mlx->rayDirX > 0)
+			mlx->wallDir = 'N';
+		else
+			mlx->wallDir = 'S';
 		texX = TEXTURE_WIDTH - texX - 1;
-	
+	}
+	if (mlx->side == 1)
+	{
+		if (mlx->rayDirY > 0)
+			mlx->wallDir = 'W';
+		else
+			mlx->wallDir = 'E';
+		texX = TEXTURE_WIDTH - texX - 1;
+	}
 	//How much to increase the texture coordinate per screen pixel
 	double	step = (1.0 * TEXTURE_HEIGHT) / mlx->lineHeight;
 	//Starting texture coordinate
 	double	texPos = (mlx->drawStart - (SCREEN_HEIGHT / 2) + (mlx->lineHeight / 2)) * step;
 	int		y = mlx->drawStart;
+	int		texNum = 0;
+	
+/* 	if (mlx->wallDir == 'N')
+	{
+		texNum = 0;
+	}
+	else if (mlx->wallDir == 'S')
+	{
+		texNum = 1;
+	}
+	else if (mlx->wallDir == 'E')
+	{
+		texNum = 2;
+	}
+	else if (mlx->wallDir == 'W')
+	{
+		texNum = 3;
+	} */
+
+	if (mlx->wallDir == 'N')
+	{
+		mlx->tex.texture_data = mlx->tex.texture_data_1;
+		mlx->tex.height = mlx->tex.height_1;
+		mlx->tex.width = mlx->tex.width_1;
+	}
+	else if (mlx->wallDir == 'S')
+	{
+		mlx->tex.texture_data = mlx->tex.texture_data_2;
+		mlx->tex.height = mlx->tex.height_2;
+		mlx->tex.width = mlx->tex.width_2;
+	}
+	else if (mlx->wallDir == 'E')
+	{
+		mlx->tex.texture_data = mlx->tex.texture_data_3;
+		mlx->tex.height = mlx->tex.height_3;
+		mlx->tex.width = mlx->tex.width_3;
+	}
+	else if (mlx->wallDir == 'W')
+	{
+		mlx->tex.texture_data = mlx->tex.texture_data_4;
+		mlx->tex.height = mlx->tex.height_4;
+		mlx->tex.width = mlx->tex.width_4;
+	}
 	while (y < mlx->drawEnd)
 	{
 		//Cast the texture coordinate to integer, and mask with (TEXTURE_HEIGHT - 1) in case of overflow
 		int		texY = (int)texPos & (TEXTURE_HEIGHT - 1);
 		texPos += step;
 		int		color;
-		if (mlx->side == 0)
-			color = mlx->tex.texture_data[0][(TEXTURE_HEIGHT * texY) + texX];
+		color = mlx->tex.texture_data[(TEXTURE_HEIGHT * texY) + texX];
 		//make color darker for y-sides: R, G, and B byte each divided through two with a "shift" and an "and"
-		else
-			color = mlx->tex.texture_data[1][(TEXTURE_HEIGHT * texY) + texX];
-/* 		if (mlx->side == 1)
-			color = (color >> 1) & 8355711; */
+		if (mlx->side == 1)
+			color = (color >> 1) & 8355711;
 		mlx->img.data[(y * SCREEN_WIDTH) + x] = color;
 		y++;
 	}

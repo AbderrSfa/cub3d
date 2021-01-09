@@ -78,20 +78,28 @@ typedef struct	s_tex
 	int			sp_height;
 	int			sp_width;
 
-	int			*texture_data[4];
+	int			*texture_data;
+	int			height;
+	int			width;
 
+	//int			*texture_data[4];
+
+	int			*texture_data_1;
 	void		*texture_1;
 	int			height_1;
 	int			width_1;
 
+	int			*texture_data_2;
 	void		*texture_2;
 	int			height_2;
 	int			width_2;
 
+	int			*texture_data_3;
 	void		*texture_3;
 	int			height_3;
 	int			width_3;
 
+	int			*texture_data_4;
 	void		*texture_4;
 	int			height_4;
 	int			width_4;
@@ -114,6 +122,7 @@ typedef struct	s_mlx
 	int			lineHeight;
 	int			drawStart;
 	int			drawEnd;
+	char		wallDir;
 	t_window	window;
 	t_player	player;
 	t_keys		keys;
