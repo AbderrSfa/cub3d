@@ -111,6 +111,18 @@ typedef struct	s_sprite
 	double		y;
 }				t_sprite;
 
+typedef struct	s_status
+{
+	int			res_done;
+	int			floor_done;
+	int			ceiling_done;
+	int			sprite_done;
+	int			north_done;
+	int			south_done;
+	int			west_done;
+	int			east_done;
+}				t_status;
+
 typedef struct	s_mlx
 {
 	int			mapX;
@@ -129,6 +141,7 @@ typedef struct	s_mlx
 	t_img		img;
 	t_tex		tex;
 	t_paths		path;
+	t_status	status;
 }				t_mlx;
 
 int 			worldMap[MAP_WIDTH][MAP_HEIGHT];
@@ -140,6 +153,9 @@ double			spriteDistance[NUM_SPRITES];
 
 void			ft_start_game(t_mlx *mlx);
 void			ft_read_map(t_mlx *mlx);
+void			ft_init_vars(t_mlx *mlx);
+void			ft_put_error(char *error);
+void			ft_check_vars(t_mlx *mlx);
 void			ft_initialize(t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
 void			ft_movement(t_mlx *mlx);
@@ -151,8 +167,5 @@ void			ft_draw_walls(t_mlx *mlx);
 void			ft_texture(t_mlx *mlx, int x);
 //void			sortSprites(int *order, double *dist, int amount);
 void			ft_sprites(t_mlx *mlx);
-void			ft_putchar(char c);
-void			ft_putstr(char *s);
-void			ft_putnbr(long n);
 
 #endif

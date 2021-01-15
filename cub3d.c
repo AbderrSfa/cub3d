@@ -100,8 +100,16 @@ int   main()
 	t_mlx	mlx;
 
 	ft_read_map(&mlx);
-	ft_start_game(&mlx);
+	//ft_start_game(&mlx);
 
+  ft_printf("Resolution:\t-%d-\t-%d-\n", mlx.window.screen_width, mlx.window.screen_height);
+	ft_printf("North:\t\t-%s-\n", mlx.path.north_path);
+	ft_printf("South:\t\t-%s-\n", mlx.path.south_path);
+	ft_printf("West:\t\t-%s-\n", mlx.path.west_path);
+	ft_printf("East:\t\t-%s-\n", mlx.path.east_path);
+	ft_printf("Sprite:\t\t-%s-\n", mlx.path.sprite_path);
+	ft_printf("F Color:\t-%d-\n", mlx.window.floor_color);
+	ft_printf("C Color:\t-%d-\n", mlx.window.ceiling_color);
 	free(mlx.path.sprite_path);
 	free(mlx.path.north_path);
 	free(mlx.path.south_path);
