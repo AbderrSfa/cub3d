@@ -6,9 +6,9 @@ S ./textures/barrel.XPM
 
 NO         ./textures/greystone.XPM 
 
+
 SO        ./textures/redbrick.XPM   
 WE       ./textures/colorstone.XPM   
 
 EA        ./textures/eagle.XPM   
-
-R 1280    720    
+R 1280  720   

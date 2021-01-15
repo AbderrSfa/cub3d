@@ -8,6 +8,7 @@
 # include <unistd.h>
 # include "mlx.h"
 # include "get_next_line/get_next_line.h"
+# include "ft_printf/ft_printf.h"
 
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
@@ -154,8 +155,9 @@ double			spriteDistance[NUM_SPRITES];
 void			ft_start_game(t_mlx *mlx);
 void			ft_read_map(t_mlx *mlx);
 void			ft_init_vars(t_mlx *mlx);
-void			ft_put_error(char *error);
+void			ft_put_error(char *error, t_mlx *mlx);
 void			ft_check_vars(t_mlx *mlx);
+int				ft_close_game(t_mlx *mlx);
 void			ft_initialize(t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
 void			ft_movement(t_mlx *mlx);

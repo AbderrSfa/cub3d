@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 16:38:42 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/01/14 12:11:52 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/01/15 12:47:20 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 void	ft_putchar(char c)
 {
 	write(1, &c, 1);
+}
+
+int		ft_isdigit(int c)
+{
+	if ((c > 47 && c < 58))
+		return (1);
+	else
+		return (0);
 }
 
 void	ft_putchar_g(char c, t_set *group)
