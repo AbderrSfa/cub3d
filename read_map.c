@@ -89,24 +89,39 @@ void	get_color(char *line, t_mlx *mlx, char type)
 	int		i;
 	int		count;
 	int		color;
+	int		commas;
 
 	i = 0;
 	count = 0;
 	color = 0;
+	commas = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	while (count < 3)
 	{
 		while (line[i] == ' ' || line[i] == '\t')
 			i++;
+		if (!ft_isdigit(line[i]))
+			ft_put_error("Invalid color input!", mlx);
 		color = color * 256 + ft_atoi(line + i);
 		i += ft_intsize(ft_atoi(line + i));
+		count++;
+		if (count == 3)
+			break;
 		while (line[i] == ' ' || line[i] == '\t')
 			i++;
 		if (line[i] == ',')
+		{
+			commas++;
 			i++;
-		count++;
+		}
 	}
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	if (commas != 2)
+		ft_put_error("Invalid color input!", mlx);
+	if (line[i])
+		ft_put_error("Too many color inputs!", mlx);
 	if (type == 'C')
 	{
 		if (mlx->status.ceiling_done)
@@ -151,19 +166,19 @@ void	get_resolution(char *line, t_mlx *mlx)
 	if (mlx->status.res_done)
 		ft_put_error("Resolution identifier already defined!", mlx);
 	if (!ft_isdigit(line[i]))
-		ft_put_error("Wrong resolution input!", mlx);
+		ft_put_error("Invalid resolution input!", mlx);
 	mlx->window.screen_width = ft_atoi(line + i);
 	i += ft_intsize(mlx->window.screen_width);
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (!ft_isdigit(line[i]))
-		ft_put_error("Wrong resolution input!", mlx);
+		ft_put_error("Invalid resolution input!", mlx);
 	mlx->window.screen_height = ft_atoi(line + i);
 	i += ft_intsize(mlx->window.screen_height);
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (line[i])
-		ft_put_error("Wrong resolution input!", mlx);
+		ft_put_error("Invalid resolution input!", mlx);
 	mlx->status.res_done = 1;
 }
 

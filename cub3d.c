@@ -101,7 +101,7 @@ int   main()
 	t_mlx	mlx;
 
 	ft_read_map(&mlx);
-	//ft_start_game(&mlx);
+	ft_start_game(&mlx);
 
   ft_printf("Resolution:\t-%d-\t-%d-\n", mlx.window.screen_width, mlx.window.screen_height);
 	ft_printf("North:\t\t-%s-\n", mlx.path.north_path);
