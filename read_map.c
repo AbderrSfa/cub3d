@@ -53,7 +53,7 @@ void	get_tex_path(char *line, t_mlx *mlx)
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	j = i;
-	while (line[j] != ' ')
+	while (line[j] != ' ' && line[j] != '\0')
 		j++;
 	if (line[0] == 'N')
 	{
@@ -83,6 +83,10 @@ void	get_tex_path(char *line, t_mlx *mlx)
 		mlx->path.east_path = ft_substr(line, i, j - i);
 		mlx->status.east_done = 1;
 	}
+	while (line[j] == ' ' || line[j] == '\t')
+		j++;
+	if (line[j])
+		ft_put_error("Extra input next to texture path!", mlx);
 }
 
 void	get_color(char *line, t_mlx *mlx, char type)
@@ -151,10 +155,14 @@ void	get_sprite_path(char *line, t_mlx *mlx)
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	j = i;
-	while (line[j] != ' ')
+	while (line[j] != ' ' && line[j] != '\0')
 		j++;
 	mlx->path.sprite_path = ft_substr(line, i, j - i);
 	mlx->status.sprite_done = 1;
+	while (line[j] == ' ' || line[j] == '\t')
+		j++;
+	if (line[j])
+		ft_put_error("Extra input next to sprite path!", mlx);
 }
 
 void	get_resolution(char *line, t_mlx *mlx)
