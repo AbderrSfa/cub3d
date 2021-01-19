@@ -229,20 +229,15 @@ void	ft_init_vars(t_mlx *mlx)
 
 void	ft_read_map(t_mlx *mlx)
 {
-	char	**lines;
 	int		i;
 
 	i = 0;
 	ft_init_vars(mlx);
-	lines = get_lines(lines);
+	mlx->status.lines = get_lines(mlx->status.lines);
 	while (i <= get_lines_count())
 	{
-		parse_lines(lines[i], mlx);
+		parse_lines(mlx->status.lines[i], mlx);
 		i++;
 	}
-	i = 0;
-	while (i <= get_lines_count())
-		free(lines[i++]);
-	free(lines);
 	ft_check_vars(mlx);
 }

@@ -85,8 +85,6 @@ int		ft_key_pressed(int key, t_mlx *mlx)
 		mlx->keys.left = 1;
 	if (key == 124)
 		mlx->keys.right = 1;
-	if (key == 53)
-		ft_close_game(mlx);
 	return (0);
 }
 
@@ -104,8 +102,7 @@ int		ft_key_released(int key, t_mlx *mlx)
 		mlx->keys.left = 0;
 	if (key == 124)
 		mlx->keys.right = 0;
-	ft_putchar('-');
-	ft_putnbr(key);
-	ft_putchar('-');
+	if (key == 53)
+		ft_close_game(mlx);
 	return (0);
 }

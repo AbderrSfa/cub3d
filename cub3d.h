@@ -83,8 +83,6 @@ typedef struct	s_tex
 	int			height;
 	int			width;
 
-	//int			*texture_data[4];
-
 	int			*texture_data_1;
 	void		*texture_1;
 	int			height_1;
@@ -114,6 +112,7 @@ typedef struct	s_sprite
 
 typedef struct	s_status
 {
+	char		**lines;
 	int			res_done;
 	int			floor_done;
 	int			ceiling_done;
@@ -155,6 +154,13 @@ double			spriteDistance[NUM_SPRITES];
 void			ft_start_game(t_mlx *mlx);
 void			ft_read_map(t_mlx *mlx);
 void			ft_init_vars(t_mlx *mlx);
+char			**get_lines(char **lines);
+int				get_lines_count();
+void			parse_lines(char *line, t_mlx *mlx);
+void			get_resolution(char *line, t_mlx *mlx);
+void			get_sprite_path(char *line, t_mlx *mlx);
+void			get_color(char *line, t_mlx *mlx, char type);
+void			get_tex_path(char *line, t_mlx *mlx);
 void			ft_put_error(char *error, t_mlx *mlx);
 void			ft_check_vars(t_mlx *mlx);
 int				ft_close_game(t_mlx *mlx);

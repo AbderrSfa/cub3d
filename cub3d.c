@@ -111,9 +111,4 @@ int   main()
 	ft_printf("Sprite:\t\t-%s-\n", mlx.path.sprite_path);
 	ft_printf("F Color:\t-%d-\n", mlx.window.floor_color);
 	ft_printf("C Color:\t-%d-\n", mlx.window.ceiling_color);
-	free(mlx.path.sprite_path);
-	free(mlx.path.north_path);
-	free(mlx.path.south_path);
-	free(mlx.path.west_path);
-	free(mlx.path.east_path); 
 }

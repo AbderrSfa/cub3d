@@ -2,6 +2,22 @@
 
 int		ft_close_game(t_mlx *mlx)
 {
+	int		i;
+
+	i = 0;
+	while (i <= get_lines_count())
+		free(mlx->status.lines[i++]);
+	free(mlx->status.lines);
+	if (mlx->status.north_done)
+		free(mlx->path.north_path);
+	if (mlx->status.south_done)
+		free(mlx->path.south_path);
+	if (mlx->status.west_done)
+		free(mlx->path.west_path);
+	if (mlx->status.east_done)
+		free(mlx->path.east_path);
+	if (mlx->status.sprite_done)
+		free(mlx->path.sprite_path);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
