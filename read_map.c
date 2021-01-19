@@ -15,6 +15,7 @@ int		get_lines_count()
 		free(line);
 	}
 	free(line);
+	close(fd);
 	return (count);
 }
 
@@ -240,4 +241,5 @@ void	ft_read_map(t_mlx *mlx)
 		i++;
 	}
 	ft_check_vars(mlx);
+	verify_textures(mlx);
 }

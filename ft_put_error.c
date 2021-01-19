@@ -1,5 +1,28 @@
 #include "cub3d.h"
 
+int		check_file(t_mlx *mlx, char *file_path)
+{
+	int		fd;
+
+	fd = open(file_path, O_RDONLY);
+	close(fd);
+	return (fd);
+}
+
+void	verify_textures(t_mlx *mlx)
+{
+	if (check_file(mlx, mlx->path.north_path) == -1)
+		ft_put_error("North texture file does not exist", mlx);
+	if (check_file(mlx, mlx->path.south_path) == -1)
+		ft_put_error("South texture file does not exist", mlx);
+	if (check_file(mlx, mlx->path.west_path) == -1)
+		ft_put_error("West texture file does not exist", mlx);
+	if (check_file(mlx, mlx->path.east_path) == -1)
+		ft_put_error("East texture file does not exist", mlx);
+	if (check_file(mlx, mlx->path.sprite_path) == -1)
+		ft_put_error("Sprite texture file does not exist", mlx);
+}
+
 int		ft_close_game(t_mlx *mlx)
 {
 	int		i;
