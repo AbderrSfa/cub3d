@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int		get_lines_count()
+int		get_lines_count(char *file)
 {
 	int		fd;
 	int		r;
@@ -8,7 +8,7 @@ int		get_lines_count()
 	int		count;
 
 	count = 0;
-	fd = open("./map.cub", O_RDONLY);
+	fd = open(file, O_RDONLY);
 	while ((r = get_next_line(fd, &line)))
 	{
 		count++;
@@ -19,7 +19,7 @@ int		get_lines_count()
 	return (count);
 }
 
-char	**get_lines(char **lines)
+char	**get_lines(char **lines, char *file)
 {
 	char	*temp;
 	int		fd;
@@ -28,9 +28,9 @@ char	**get_lines(char **lines)
 	int		j;
 
 	i = 0;
-	j = get_lines_count() + 1;
+	j = get_lines_count(file) + 1;
 	lines = (char **)malloc(sizeof(char *) * j);
-	fd = open("./map.cub", O_RDONLY);
+	fd = open(file, O_RDONLY);
 	while ((r = get_next_line(fd, &temp)))
 	{
 		lines[i] = ft_strdup(temp);
@@ -236,18 +236,33 @@ void	ft_init_vars(t_mlx *mlx)
 	mlx->window.ceiling_color = 0;
 }
 
-void	ft_read_map(t_mlx *mlx)
+void	ft_read_map(t_mlx *mlx, char *file)
 {
 	int		i;
 
+	if (check_file(file) == -1)
+		ft_put_error("Map file does not exist!", mlx);
 	i = 0;
+	mlx->status.lines_count = get_lines_count(file);
 	ft_init_vars(mlx);
-	mlx->status.lines = get_lines(mlx->status.lines);
-	while (i <= get_lines_count())
+	mlx->status.lines = get_lines(mlx->status.lines, file);
+	while (i <= mlx->status.lines_count)
 	{
 		parse_lines(mlx->status.lines[i], mlx);
 		i++;
 	}
 	ft_check_vars(mlx);
 	verify_textures(mlx);
+}
+
+int		name_checker(char *arg)
+{
+	int		i;
+
+	i = 0;
+	while (arg[i])
+		i++;
+	if (arg[i - 1] == 'b' && arg[i - 2] == 'u' && arg[i - 3] == 'c' && arg[i - 4] == '.')
+		return (1);
+	return (0);
 }

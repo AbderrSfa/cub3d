@@ -1,10 +1,10 @@
 
-C        66  ,  168  , 243  
-F     136 ,   160  ,  178 
+F       138, 138, 138
+C     56, 56, 56
 
-S ./textures/barrel.XPM   
+S ./textures/greenlight.XPM   
 
-NO         ./textures/greystone.XPM 
+NO         ./textures/greystone.XPM
 
 
 SO        ./textures/redbrick.XPM   

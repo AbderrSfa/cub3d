@@ -96,19 +96,25 @@ void	ft_start_game(t_mlx *mlx)
 	mlx_loop(mlx->window.mlx_ptr);
 }
 
-int   main()
+int		main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	ft_read_map(&mlx);
-	ft_start_game(&mlx);
-
-  ft_printf("Resolution:\t-%d-\t-%d-\n", mlx.window.screen_width, mlx.window.screen_height);
-	ft_printf("North:\t\t-%s-\n", mlx.path.north_path);
-	ft_printf("South:\t\t-%s-\n", mlx.path.south_path);
-	ft_printf("West:\t\t-%s-\n", mlx.path.west_path);
-	ft_printf("East:\t\t-%s-\n", mlx.path.east_path);
-	ft_printf("Sprite:\t\t-%s-\n", mlx.path.sprite_path);
-	ft_printf("F Color:\t-%d-\n", mlx.window.floor_color);
-	ft_printf("C Color:\t-%d-\n", mlx.window.ceiling_color);
+	mlx.status.lines = NULL;
+	if (argc == 2 && name_checker(argv[1]))
+	{
+		ft_read_map(&mlx, argv[1]);
+/* 		ft_printf("Resolution:\t-%d-\t-%d-\n", mlx.window.screen_width, mlx.window.screen_height);
+		ft_printf("North:\t\t-%s-\n", mlx.path.north_path);
+		ft_printf("South:\t\t-%s-\n", mlx.path.south_path);
+		ft_printf("West:\t\t-%s-\n", mlx.path.west_path);
+		ft_printf("East:\t\t-%s-\n", mlx.path.east_path);
+		ft_printf("Sprite:\t\t-%s-\n", mlx.path.sprite_path);
+		ft_printf("F Color:\t-%d-\n", mlx.window.floor_color);
+		ft_printf("C Color:\t-%d-\n", mlx.window.ceiling_color); */
+	  ft_start_game(&mlx);
+	}
+	else
+		ft_put_error("Invalid arguments!", &mlx);
+	return (0);
 }
