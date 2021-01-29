@@ -112,8 +112,6 @@ typedef struct	s_sprite
 
 typedef struct	s_status
 {
-	char		**lines;
-	int			lines_count;
 	int			res_done;
 	int			floor_done;
 	int			ceiling_done;
@@ -122,6 +120,7 @@ typedef struct	s_status
 	int			south_done;
 	int			west_done;
 	int			east_done;
+	int			player_done;
 }				t_status;
 
 typedef struct	s_mlx
@@ -136,6 +135,11 @@ typedef struct	s_mlx
 	int			drawStart;
 	int			drawEnd;
 	char		wallDir;
+	char		**lines;
+	int			lines_count;
+	int			map_height;
+	int			map_width;
+	int			**world_map;
 	t_window	window;
 	t_player	player;
 	t_keys		keys;
@@ -158,13 +162,20 @@ void			ft_read_map(t_mlx *mlx, char *file);
 void			ft_init_vars(t_mlx *mlx);
 char			**get_lines(char **lines, char *file);
 int				get_lines_count();
-void			parse_lines(char *line, t_mlx *mlx);
+int				parse_lines(char *line, t_mlx *mlx);
 void			get_resolution(char *line, t_mlx *mlx);
 void			get_sprite_path(char *line, t_mlx *mlx);
 void			get_color(char *line, t_mlx *mlx, char type);
 void			get_tex_path(char *line, t_mlx *mlx);
 void			ft_check_vars(t_mlx *mlx);
 void			verify_textures(t_mlx *mlx);
+int				get_map_width(char **lines, t_mlx *mlx);
+int				get_map_height(char **lines, t_mlx *mlx);
+void			map_allocation(t_mlx *mlx);
+void			create_map(char **lines, t_mlx *mlx);
+void			player_position(t_mlx *mlx);
+int				check_for_player(int x, int y, t_mlx *mlx);
+void			get_player_details(char spot, int x, int y, t_mlx *mlx);
 int				check_file(char *file_path);
 void			ft_put_error(char *error, t_mlx *mlx);
 int				ft_close_game(t_mlx *mlx);

@@ -28,11 +28,11 @@ int		ft_close_game(t_mlx *mlx)
 	int		i;
 
 	i = 0;
-	if (mlx->status.lines != NULL)
+	if (mlx->lines != NULL)
 	{
-		while (i <= mlx->status.lines_count)
-			free(mlx->status.lines[i++]);
-		free(mlx->status.lines);
+		while (i <= mlx->lines_count)
+			free(mlx->lines[i++]);
+		free(mlx->lines);
 	}
 	if (mlx->status.north_done)
 		free(mlx->path.north_path);

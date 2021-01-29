@@ -100,7 +100,7 @@ int		main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	mlx.status.lines = NULL;
+	mlx.lines = NULL;
 	if (argc == 2 && name_checker(argv[1]))
 	{
 		ft_read_map(&mlx, argv[1]);

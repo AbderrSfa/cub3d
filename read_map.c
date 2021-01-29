@@ -1,5 +1,34 @@
 #include "cub3d.h"
 
+char	**get_filelines(char **lines, char **temp, int fd)
+{
+	char	*string;
+	int		i;
+	int		j;
+	int		r;
+
+	r = 1;
+	i = 1;
+	while (r)
+	{
+		r = get_next_line(fd, &string);
+		temp = lines;
+		j = 0;
+		lines = malloc((i + 1) * sizeof(char *));
+		if (temp)
+			while (temp[j])
+			{
+				lines[j] = temp[j];
+				j++;
+			}
+		free(temp);
+		lines[j++] = string;
+		lines[j] = 0;
+		i++;
+	}
+	return (lines);
+}
+
 int		get_lines_count(char *file)
 {
 	int		fd;
@@ -191,10 +220,12 @@ void	get_resolution(char *line, t_mlx *mlx)
 	mlx->status.res_done = 1;
 }
 
-void	parse_lines(char *line, t_mlx *mlx)
+int		parse_lines(char *line, t_mlx *mlx)
 {
+	while (*line == ' ')
+		line++;
 	if (*line == '\0')
-		return ;
+		return (0);
 	if (*line == 'R' && *(line + 1) == ' ')
 		get_resolution(line, mlx);
 	else if (*line == 'S' && *(line + 1) == ' ')
@@ -211,8 +242,11 @@ void	parse_lines(char *line, t_mlx *mlx)
 	(*line == 'W' && *(line + 1) == 'E' && *(line + 2) == ' ') ||
 	(*line == 'E' && *(line + 1) == 'A' && *(line + 2) == ' '))
 		get_tex_path(line, mlx);
+	else if (*line == '0' || *line == '1' || *line == '2')
+		return (1);
 	else
 		ft_put_error("Invalid Identifier!", mlx);
+	return (0);
 }
 
 void	ft_init_vars(t_mlx *mlx)
@@ -236,23 +270,188 @@ void	ft_init_vars(t_mlx *mlx)
 	mlx->window.ceiling_color = 0;
 }
 
+int		get_map_width(char **lines, t_mlx *mlx)
+{
+	int		i;
+	int		j;
+	int		ret;
+
+	i = 0;
+	j = 0;
+	ret = 0;
+	while (lines[i])
+	{
+		j = 0;
+		while (lines[i][j] == ' ' || lines[i][j] == '\t')
+			j++;
+		if (lines[i][j] == '\0')
+			break;
+		i++;
+	}
+	ret = i;
+	while (lines[i])
+	{
+		j = 0;
+		while (lines[i][j] == ' ')
+			j++;
+		if (lines[i][j])
+			ft_put_error("Extra input after end of map!", mlx);
+		i++;
+	}
+	return (ret);
+}
+
+int		get_map_height(char **lines, t_mlx *mlx)
+{
+	int		i;
+	int		j;
+	int		n;
+	int		ret;
+
+
+	i = 0;
+	j = 0;
+	n = 0;
+	ret = 0;
+	while (lines[i])
+	{
+		j = 0;
+		n = 0;
+		while (lines[i][j])
+		{
+			if (lines[i][j] != ' ')
+				n++;
+			j++;
+		}
+		if (ret < n)
+			ret = n;
+		i++;
+	}
+	return (ret);
+}
+
+void	map_allocation(t_mlx *mlx)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	mlx->world_map = malloc(sizeof(int *) * (mlx->map_width + 1));
+	while (i < (mlx->map_width + 1))
+	{
+		j = 0;
+		mlx->world_map[i] = malloc(sizeof(int) * (mlx->map_height + 1));
+		while (j < (mlx->map_height + 1))
+		{
+			mlx->world_map[i][j] = 32;
+			j++;
+		}
+		i++;
+	}
+}
+
+void	create_map(char **lines, t_mlx *mlx)
+{
+	int		i;
+	int		j;
+	int		h;
+
+
+	i = 0;
+	j = 0;
+	h = 0;
+	while (lines[i])
+	{
+		j = 0;
+		h = 0;
+		while (lines[i][j])
+		{
+			while (lines[i][j] == ' ')
+				j++;
+			mlx->world_map[i][h++] = lines[i][j];
+			j++;
+		}
+		i++;
+	}
+}
+
+void	get_player_details(char spot, int x, int y, t_mlx *mlx)
+{
+	if (mlx->status.player_done == 1)
+		ft_put_error("Multiple spawnpoints!", mlx);
+	if (spot != 'N' && spot != 'S' && spot != 'W' && spot != 'E')
+		ft_put_error("Invalid map character!", mlx);
+	mlx->player.posX = x;
+	mlx->player.posY = y;
+}
+
+int		check_for_player(int x, int y, t_mlx *mlx)
+{
+	char	spot;
+
+	spot = mlx->world_map[x][y];
+	if (spot != '0' && spot != '1' && spot != '2' && spot != ' ')
+	{
+		get_player_details(spot, x, y, mlx);
+		return (1);
+	}
+	return (0);
+}
+
+void	player_position(t_mlx *mlx)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	mlx->status.player_done = 0;
+	while (x <= mlx->map_width)
+	{
+		y = 0;
+		while (y <= mlx->map_height)
+		{
+			if (check_for_player(x, y, mlx))
+				mlx->status.player_done = 1;
+			y++;
+		}
+		x++;
+	}
+	if (mlx->status.player_done == 0)
+		ft_put_error("No player spawnpoint!", mlx);
+}
+
 void	ft_read_map(t_mlx *mlx, char *file)
 {
 	int		i;
+	int		ret;
+	int		fd;
+	char	**temp;
 
-	if (check_file(file) == -1)
+	if ((fd = open(file, O_RDONLY)) < 0)
 		ft_put_error("Map file does not exist!", mlx);
 	i = 0;
-	mlx->status.lines_count = get_lines_count(file);
+	ret = 0;
+	mlx->lines = 0;
+	mlx->lines_count = get_lines_count(file);
 	ft_init_vars(mlx);
-	mlx->status.lines = get_lines(mlx->status.lines, file);
-	while (i <= mlx->status.lines_count)
+	mlx->lines = get_filelines(mlx->lines, temp, fd);
+	close(fd);
+	while (i <= mlx->lines_count && !ret)
 	{
-		parse_lines(mlx->status.lines[i], mlx);
+		ret = parse_lines(mlx->lines[i], mlx);
 		i++;
 	}
+	if (!ret)
+		ft_put_error("No map included in file!", mlx);
 	ft_check_vars(mlx);
 	verify_textures(mlx);
+	mlx->map_width = get_map_width(&mlx->lines[i - 1], mlx);
+	mlx->map_height = get_map_height(&mlx->lines[i - 1], mlx);
+	map_allocation(mlx);
+	create_map(&mlx->lines[i - 1], mlx);
+	player_position(mlx);
 }
 
 int		name_checker(char *arg)

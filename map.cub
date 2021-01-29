@@ -6,9 +6,15 @@ S ./textures/greenlight.XPM
 
 NO         ./textures/greystone.XPM
 
-
 SO        ./textures/redbrick.XPM   
 WE       ./textures/colorstone.XPM   
 
 EA        ./textures/eagle.XPM   
 R 1280  720   
+
+
+11111111
+10000001
+100000E1
+11111111
+
