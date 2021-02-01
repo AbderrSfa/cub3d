@@ -295,8 +295,8 @@ void	ft_read_map(t_mlx *mlx, char *file)
 		ft_put_error("No map included in file!", mlx);
 	ft_check_vars(mlx);
 	verify_textures(mlx);
-	mlx->map_width = get_map_width(&mlx->lines[i - 1], mlx);
 	mlx->map_height = get_map_height(&mlx->lines[i - 1], mlx);
+	mlx->map_width = get_map_width(&mlx->lines[i - 1], mlx);
 	map_allocation(mlx);
 	create_map(&mlx->lines[i - 1], mlx);
 	player_position(mlx);

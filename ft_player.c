@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	get_player_details(char spot, int x, int y, t_mlx *mlx)
+void	get_player_details(char spot, int y, int x, t_mlx *mlx)
 {
 	if (mlx->status.player_done == 1)
 		ft_put_error("Multiple spawnpoints!", mlx);
@@ -10,14 +10,14 @@ void	get_player_details(char spot, int x, int y, t_mlx *mlx)
 	mlx->player.posY = y;
 }
 
-int		check_for_player(int x, int y, t_mlx *mlx)
+int		check_for_player(int y, int x, t_mlx *mlx)
 {
 	char	spot;
 
-	spot = mlx->world_map[x][y];
+	spot = mlx->world_map[y][x];
 	if (spot != '0' && spot != '1' && spot != '2' && spot != ' ')
 	{
-		get_player_details(spot, x, y, mlx);
+		get_player_details(spot, y, x, mlx);
 		return (1);
 	}
 	return (0);
@@ -31,16 +31,16 @@ void	player_position(t_mlx *mlx)
 	x = 0;
 	y = 0;
 	mlx->status.player_done = 0;
-	while (x <= mlx->map_width)
+	while (y <= mlx->map_height)
 	{
-		y = 0;
-		while (y <= mlx->map_height)
+		x = 0;
+		while (x <= mlx->map_width)
 		{
-			if (check_for_player(x, y, mlx))
+			if (check_for_player(y, x, mlx))
 				mlx->status.player_done = 1;
-			y++;
+			x++;
 		}
-		x++;
+		y++;
 	}
 	if (mlx->status.player_done == 0)
 		ft_put_error("No player spawnpoint!", mlx);

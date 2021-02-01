@@ -112,6 +112,13 @@ int		main(int argc, char **argv)
 		ft_printf("Sprite:\t\t-%s-\n", mlx.path.sprite_path);
 		ft_printf("F Color:\t-%d-\n", mlx.window.floor_color);
 		ft_printf("C Color:\t-%d-\n", mlx.window.ceiling_color); */
+    ft_printf("Game Map:\n");
+		for (int y = 0; y < mlx.map_height; y++)
+		{
+			for (int x = 0; x < mlx.map_width; x++)
+				ft_printf("%c,", mlx.world_map[y][x]);
+			ft_printf("\n");
+		}
 	  ft_start_game(&mlx);
 	}
 	else

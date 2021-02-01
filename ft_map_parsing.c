@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int		get_map_width(char **lines, t_mlx *mlx)
+int		get_map_height(char **lines, t_mlx *mlx)
 {
 	int		i;
 	int		j;
@@ -31,7 +31,7 @@ int		get_map_width(char **lines, t_mlx *mlx)
 	return (ret);
 }
 
-int		get_map_height(char **lines, t_mlx *mlx)
+int		get_map_width(char **lines, t_mlx *mlx)
 {
 	int		i;
 	int		j;
@@ -62,86 +62,87 @@ int		get_map_height(char **lines, t_mlx *mlx)
 
 void	map_allocation(t_mlx *mlx)
 {
-	int		i;
-	int		j;
+	int		y;
+	int		x;
 
-	i = 0;
-	j = 0;
-	mlx->world_map = malloc(sizeof(int *) * (mlx->map_width + 1));
-	while (i < (mlx->map_width + 1))
+	y = 0;
+	x = 0;
+	mlx->world_map = malloc(sizeof(int *) * (mlx->map_height + 1));
+	while (y < (mlx->map_height + 1))
 	{
-		j = 0;
-		mlx->world_map[i] = malloc(sizeof(int) * (mlx->map_height + 1));
-		while (j < (mlx->map_height + 1))
+		x = 0;
+		mlx->world_map[y] = malloc(sizeof(int) * (mlx->map_width + 1));
+		while (x < (mlx->map_width + 1))
 		{
-			mlx->world_map[i][j] = 32;
-			j++;
+			mlx->world_map[y][x] = ' ';
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
 void	create_map(char **lines, t_mlx *mlx)
 {
-	int		i;
-	int		j;
+	int		y;
+	int		x;
 	int		h;
 
 
-	i = 0;
-	j = 0;
+	y = 0;
+	x = 0;
 	h = 0;
-	while (lines[i])
+	while (lines[y])
 	{
-		j = 0;
+		x = 0;
 		h = 0;
-		while (lines[i][j])
+		while (lines[y][x])
 		{
-			while (lines[i][j] == ' ')
-				j++;
-			mlx->world_map[i][h++] = lines[i][j];
-			j++;
+			while (lines[y][x] == ' ')
+				x++;
+			mlx->world_map[y][h++] = lines[y][x];
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
-void	check_spot(t_mlx *mlx, int x, int y)
+void	check_spot(t_mlx *mlx, int y, int x)
 {
 	int 	**map;
 
-	mlx->status.player_done = 0;
-	map = mlx->world_map;
+/* 	mlx->status.player_done = 0;
+ */	map = mlx->world_map;
 	if (x == 0 || y == 0 || x == mlx->map_width)
 		ft_put_error("Map not properly closed off!", mlx);
-	if (map[x][y] == ' ')
+/* 	if (map[x][y] == ' ')
+		ft_put_error("Map not properly closed off!", mlx); */
+	if (map[y][x - 1] == ' ')
 		ft_put_error("Map not properly closed off!", mlx);
-	if (map[x][y - 1] == ' ')
+	if (map[y][x + 1] == ' ')
 		ft_put_error("Map not properly closed off!", mlx);
-	if (map[x][y + 1] == ' ')
+	if (map[y + 1][x] == ' ')
 		ft_put_error("Map not properly closed off!", mlx);
-	if (map[x + 1][y] == ' ')
-		ft_put_error("Map not properly closed off!", mlx);
-	if (map[x - 1][y] == ' ')
+	if (map[y - 1][x] == ' ')
 		ft_put_error("Map not properly closed off!", mlx);
 }
 
 void	ft_map_checker(t_mlx *mlx)
 {
-	int x;
 	int y;
+	int x;
 
+	y = 0;
 	x = 0;
-	while (x < mlx->map_width)
+	while (y < mlx->map_height)
 	{
-		y = 0;
-		while (y < mlx->map_height)
+		x = 0;
+		while (x < mlx->map_width)
 		{
-			if (x != 0 && y != 1 && mlx->world_map[x][y] != '1'
-					&& mlx->world_map[x][y] != ' ')
-				check_spot(mlx, x, y);
-			y++;
+			if (/* x != 0 && y != 1 &&  */mlx->world_map[y][x] != '1'
+					&& mlx->world_map[y][x] != ' ')
+				check_spot(mlx, y, x);
+			x++;
 		}
-		x++;
+		y++;
 	}
 }
