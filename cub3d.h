@@ -176,6 +176,8 @@ void			create_map(char **lines, t_mlx *mlx);
 void			player_position(t_mlx *mlx);
 int				check_for_player(int x, int y, t_mlx *mlx);
 void			get_player_details(char spot, int x, int y, t_mlx *mlx);
+void			ft_map_checker(t_mlx *mlx);
+void			check_spot(t_mlx *mlx, int x, int y);
 int				check_file(char *file_path);
 void			ft_put_error(char *error, t_mlx *mlx);
 int				ft_close_game(t_mlx *mlx);

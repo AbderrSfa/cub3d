@@ -49,7 +49,7 @@ int		ft_close_game(t_mlx *mlx)
 
 void	ft_put_error(char *error, t_mlx *mlx)
 {
-	ft_printf("Error:\n\t%s\n", error);
+	ft_printf("Error:\n\033[0;31m\t%s\n", error);
 	ft_close_game(mlx);
 }
 
