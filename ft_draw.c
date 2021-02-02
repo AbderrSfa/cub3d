@@ -179,7 +179,7 @@ void	ft_draw_walls(t_mlx *mlx)
       	ZBuffer[x] = mlx->perpWallDist; //perpendicular distance is used
 		x++;
 	}
-	ft_sprites(mlx);
+	//ft_sprites(mlx);
 }
 
 void	ft_texture(t_mlx *mlx, int x)

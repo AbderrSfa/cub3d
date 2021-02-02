@@ -125,6 +125,14 @@ typedef struct	s_status
 
 typedef struct	s_mlx
 {
+	t_window	window;
+	t_player	player;
+	t_keys		keys;
+	t_img		img;
+	t_tex		tex;
+	t_paths		path;
+	t_status	status;	
+	t_sprite	*sprite;
 	int			mapX;
 	int			mapY;
 	int			side;			//was it a NS or a EW wall hit;
@@ -140,13 +148,8 @@ typedef struct	s_mlx
 	int			map_height;
 	int			map_width;
 	int			**world_map;
-	t_window	window;
-	t_player	player;
-	t_keys		keys;
-	t_img		img;
-	t_tex		tex;
-	t_paths		path;
-	t_status	status;
+	int			*sprite_order;
+	int			sprite_num;
 }				t_mlx;
 
 int 			worldMap[MAP_WIDTH][MAP_HEIGHT];
@@ -169,8 +172,8 @@ void			get_color(char *line, t_mlx *mlx, char type);
 void			get_tex_path(char *line, t_mlx *mlx);
 void			ft_check_vars(t_mlx *mlx);
 void			verify_textures(t_mlx *mlx);
-int				get_map_width(char **lines, t_mlx *mlx);
-int				get_map_height(char **lines, t_mlx *mlx);
+int				get_map_x(char **lines, t_mlx *mlx);
+int				get_map_y(char **lines, t_mlx *mlx);
 void			map_allocation(t_mlx *mlx);
 void			create_map(char **lines, t_mlx *mlx);
 void			player_position(t_mlx *mlx);
@@ -178,6 +181,8 @@ int				check_for_player(int x, int y, t_mlx *mlx);
 void			get_player_details(char spot, int x, int y, t_mlx *mlx);
 void			ft_map_checker(t_mlx *mlx);
 void			check_spot(t_mlx *mlx, int x, int y);
+t_sprite 	   *ft_get_sprites(t_mlx *mlx);
+int 	        ft_count_sprites(t_mlx *mlx);
 int				check_file(char *file_path);
 void			ft_put_error(char *error, t_mlx *mlx);
 int				ft_close_game(t_mlx *mlx);

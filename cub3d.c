@@ -101,6 +101,7 @@ int		main(int argc, char **argv)
 	t_mlx	mlx;
 
 	mlx.lines = NULL;
+  ft_init_vars(&mlx);
 	if (argc == 2 && name_checker(argv[1]))
 	{
 		ft_read_map(&mlx, argv[1]);
@@ -113,10 +114,10 @@ int		main(int argc, char **argv)
 		ft_printf("F Color:\t-%d-\n", mlx.window.floor_color);
 		ft_printf("C Color:\t-%d-\n", mlx.window.ceiling_color); */
     ft_printf("Game Map:\n");
-		for (int y = 0; y < mlx.map_height; y++)
+		for (int i = 0; i < mlx.map_width; i++)
 		{
-			for (int x = 0; x < mlx.map_width; x++)
-				ft_printf("%c,", mlx.world_map[y][x]);
+			for (int j = 0; j < mlx.map_height; j++)
+				ft_printf("%c,", mlx.world_map[i][j]);
 			ft_printf("\n");
 		}
 	  ft_start_game(&mlx);
