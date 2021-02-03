@@ -55,7 +55,6 @@ typedef struct	s_img
 {
 	void		*img_ptr;
 	int			*data;
-
 	int			size_l;
 	int			bpp;
 	int			endian;	
@@ -148,9 +147,8 @@ typedef struct	s_mlx
 	int			**world_map;
 	int			*sprite_order;
 	int			sprite_num;
+	double		*ZBuffer;
 }				t_mlx;
-
-double			ZBuffer[1280];
 
 int				name_checker(char *arg);
 void			ft_start_game(t_mlx *mlx);

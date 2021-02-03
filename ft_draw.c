@@ -121,7 +121,7 @@ void	ft_draw_walls(t_mlx *mlx)
 
 		ft_texture(mlx, x);
       	//SET THE ZBUFFER FOR THE SPRITE CASTING
-      	ZBuffer[x] = mlx->perpWallDist; //perpendicular distance is used
+      	mlx->ZBuffer[x] = mlx->perpWallDist; //perpendicular distance is used
 		x++;
 	}
 	ft_sprites(mlx);
@@ -259,7 +259,7 @@ void	ft_sprites(t_mlx *mlx)
         	//2) it's on the screen (left)
         	//3) it's on the screen (right)
         	//4) ZBuffer, with perpendicular distance
-        	if(transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH && transformY < ZBuffer[stripe])
+        	if(transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH && transformY < mlx->ZBuffer[stripe])
 			{
 				int	y = drawStartY;
 				while (y < drawEndY)
