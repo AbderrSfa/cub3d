@@ -19,8 +19,6 @@
 # define TEXTURE_WIDTH mlx->tex.width_1
 # define TEXTURE_HEIGHT mlx->tex.height_1
 
-# define NUM_SPRITES 19
-
 typedef struct	s_window
 {
 	void    	*mlx_ptr;
@@ -152,12 +150,7 @@ typedef struct	s_mlx
 	int			sprite_num;
 }				t_mlx;
 
-int 			worldMap[MAP_WIDTH][MAP_HEIGHT];
-
-t_sprite		sprite[NUM_SPRITES];
 double			ZBuffer[1280];
-int				spriteOrder[NUM_SPRITES];
-double			spriteDistance[NUM_SPRITES];
 
 int				name_checker(char *arg);
 void			ft_start_game(t_mlx *mlx);
@@ -183,19 +176,20 @@ void			ft_map_checker(t_mlx *mlx);
 void			check_spot(t_mlx *mlx, int x, int y);
 t_sprite 	   *ft_get_sprites(t_mlx *mlx);
 int 	        ft_count_sprites(t_mlx *mlx);
+void			ft_sort_sprites(t_mlx *mlx);
 int				check_file(char *file_path);
 void			ft_put_error(char *error, t_mlx *mlx);
 int				ft_close_game(t_mlx *mlx);
 void			ft_initialize(t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
 void			ft_movement(t_mlx *mlx);
+int				check_movement(int x, int y, t_mlx *mlx);
 void			ft_rotation(t_mlx *mlx);
 int				ft_key_pressed(int key, t_mlx *mlx);
 int				ft_key_released(int key, t_mlx *mlx);
 void			ft_draw_ceiling_floor(t_mlx *mlx);
 void			ft_draw_walls(t_mlx *mlx);
 void			ft_texture(t_mlx *mlx, int x);
-//void			sortSprites(int *order, double *dist, int amount);
 void			ft_sprites(t_mlx *mlx);
 
 #endif

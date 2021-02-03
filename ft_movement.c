@@ -1,48 +1,56 @@
 #include "cub3d.h"
 
+int		check_movement(int x, int y, t_mlx *mlx)
+{
+	if (mlx->world_map[x][y] != '1' && mlx->world_map[x][y] != '2')
+		return (1);
+	return (0);
+}
+
 void	ft_movement(t_mlx *mlx)
 {
-	if (mlx->keys.W == 1)
+
+		if (mlx->keys.W == 1)
 	{
-		if (worldMap[(int)(mlx->player.posX + mlx->player.dirX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+		if (check_movement((int)(mlx->player.posX + mlx->player.dirX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
 			mlx->player.posX += mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY + mlx->player.dirY * mlx->player.moveSpeed)] == 0)
+		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY + mlx->player.dirY * mlx->player.moveSpeed), mlx))
 			mlx->player.posY += mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.S == 1)
 	{
-		if (worldMap[(int)(mlx->player.posX - mlx->player.dirX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+		if (check_movement((int)(mlx->player.posX - mlx->player.dirX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
 			mlx->player.posX -= mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY - mlx->player.dirY * mlx->player.moveSpeed)] == 0)
+		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY - mlx->player.dirY * mlx->player.moveSpeed), mlx))
 			mlx->player.posY -= mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.D == 1)
 	{
-		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY - mlx->player.dirX * mlx->player.moveSpeed)] == 0)
+		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY - mlx->player.dirX * mlx->player.moveSpeed), mlx))
 			mlx->player.posY -= mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (worldMap[(int)(mlx->player.posX + mlx->player.dirY * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+		if (check_movement((int)(mlx->player.posX + mlx->player.dirY * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
 			mlx->player.posX += mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.A == 1)
 	{
-		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY + mlx->player.dirX * mlx->player.moveSpeed)] == 0)
+		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY + mlx->player.dirX * mlx->player.moveSpeed), mlx))
 			mlx->player.posY += mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (worldMap[(int)(mlx->player.posX - mlx->player.dirY * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+		if (check_movement((int)(mlx->player.posX - mlx->player.dirY * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
 			mlx->player.posX -= mlx->player.dirY * mlx->player.moveSpeed * 0.5;
 	}
 	//strafe to the right and left like in Lodev
 /* 	if (mlx->keys.D == 1)
 	{
-		if (worldMap[(int)(mlx->player.posX + mlx->player.planeX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+		if (check_movement((int)(mlx->player.posX + mlx->player.planeX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
 			mlx->player.posX += mlx->player.planeX * mlx->player.moveSpeed * 0.5;
-		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY + mlx->player.planeY * mlx->player.moveSpeed)] == 0)
+		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY + mlx->player.planeY * mlx->player.moveSpeed), mlx))
 			mlx->player.posY += mlx->player.planeY * mlx->player.moveSpeed * 0.5;
 	}
 	if (mlx->keys.A == 1)
 	{
-		if (worldMap[(int)(mlx->player.posX - mlx->player.planeX * mlx->player.moveSpeed)][(int)mlx->player.posY] == 0)
+		if (check_movement((int)(mlx->player.posX - mlx->player.planeX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
 			mlx->player.posX -= mlx->player.planeX * mlx->player.moveSpeed * 0.5;
-		if (worldMap[(int)mlx->player.posX][(int)(mlx->player.posY - mlx->player.planeY * mlx->player.moveSpeed)] == 0)
+		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY - mlx->player.planeY * mlx->player.moveSpeed), mlx))
 			mlx->player.posY -= mlx->player.planeY * mlx->player.moveSpeed * 0.5;
 	} */
 	if (mlx->keys.right == 1 || mlx->keys.left == 1)

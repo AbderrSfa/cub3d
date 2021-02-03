@@ -2,7 +2,7 @@
 F       138, 138, 138
 C     56, 56, 56
 
-S ./textures/greenlight.XPM   
+S ./textures/barrel.XPM   
 
 NO         ./textures/greystone.XPM
 
@@ -13,8 +13,10 @@ EA        ./textures/eagle.XPM
 R 1280  720   
 
 
-11111111
-10000001
-100000W1
-11111111
-
+111111111111
+102020202011
+100000000001
+102020202001
+100000000001
+1020202020N1
+111111111111

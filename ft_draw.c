@@ -27,61 +27,6 @@ void	ft_draw_ceiling_floor(t_mlx *mlx)
 		}
 		y++;
 	}
-/* 	int		y;
-
-	y = 0;
-	while (y < SCREEN_HEIGHT)
-	{
-		float rayDirX0 = mlx->player.dirX - mlx->player.planeX;
-		float rayDirY0 = mlx->player.dirY - mlx->player.planeY;
-		float rayDirX1 = mlx->player.dirX + mlx->player.planeX;
-		float rayDirY1 = mlx->player.dirY + mlx->player.planeY;
-
-		// Current y position compared to the center of the screen (the horizon)
-		int p = y - SCREEN_HEIGHT / 2;
-
-		// Vertical position of the camera.
-		float posZ = 0.5 * SCREEN_HEIGHT;
-
-		// Horizontal distance from the camera to the floor for the current row.
-		// 0.5 is the z position exactly in the middle between floor and ceiling.
-		float rowDistance = posZ / p;
-
-		// calculate the real world step vector we have to add for each x (parallel to camera plane)
-		// adding step by step avoids multiplications with a weight in the inner loop
-		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
-		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
-
-		// real world coordinates of the leftmost column. This will be updated as we step to the right.
-		float floorX = mlx->player.posX + rowDistance * rayDirX0;
-		float floorY = mlx->player.posY + rowDistance * rayDirY0;
-		int	x = 0;
-		while (x < SCREEN_WIDTH)
-		{
-			// the cell coord is simply got from the integer parts of floorX and floorY
-			int cellX = (int)floorX;
-			int cellY = (int)floorY;
-
-			// get the texture coordinate from the fractional part
-			int tx = (int)(TEXTURE_WIDTH * (floorX - cellX)) & (TEXTURE_WIDTH - 1);
-			int ty = (int)(TEXTURE_HEIGHT * (floorY - cellY)) & (TEXTURE_HEIGHT - 1);
-
-			floorX += floorStepX;
-			floorY += floorStepY;
-
-			int	color = mlx->tex.texture_data[6][(TEXTURE_WIDTH * ty) + tx];
-			color = (color >> 1) & 8355711; // make a bit darker
-			mlx->img.data[(y * SCREEN_WIDTH) + x] = color;
-
-			//ceiling (symmetrical, at screenHeight - y - 1 instead of y)
-			color = mlx->tex.texture_data[1][(TEXTURE_WIDTH * ty) + tx];
-			color = (color >> 1) & 8355711; // make a bit darker
-			//buffer[screenHeight - y - 1][x] = color;
-			mlx->img.data[(SCREEN_HEIGHT - y - 1) * SCREEN_WIDTH + x] = color;
-			x++;
-		}
-		y++;
-	} */
 }
 
 void	ft_draw_walls(t_mlx *mlx)
@@ -153,7 +98,7 @@ void	ft_draw_walls(t_mlx *mlx)
 				mlx->side = 1;
 			}
 			//checking if ray hit a wall
-			if (worldMap[mlx->mapX][mlx->mapY] > 0)
+			if (mlx->world_map[mlx->mapX][mlx->mapY] == '1')
 				hit = 1;
 		}
 
@@ -179,14 +124,11 @@ void	ft_draw_walls(t_mlx *mlx)
       	ZBuffer[x] = mlx->perpWallDist; //perpendicular distance is used
 		x++;
 	}
-	//ft_sprites(mlx);
+	ft_sprites(mlx);
 }
 
 void	ft_texture(t_mlx *mlx, int x)
 {
-/* 	//texturing calculations
-	int texNum = worldMap[mlx->mapX][mlx->mapY] - 1; //1 subtracted from it so that texture 0 can be used! */
-
 	//Calculate value of wallX where exactly the wall was hit
 	double	wallX;
 	if (mlx->side == 0)
@@ -197,10 +139,6 @@ void	ft_texture(t_mlx *mlx, int x)
 
 	//x coordinate on the texture
 	int		texX = (int)(wallX * (double)TEXTURE_WIDTH);
-/* 	if (mlx->side == 0 && mlx->rayDirX > 0)
-		texX = TEXTURE_WIDTH - texX - 1;
-	else if (mlx->side == 1 && mlx->rayDirY < 0)
-		texX = TEXTURE_WIDTH - texX - 1; */
 	if (mlx->side == 0)
 	{
 		if (mlx->rayDirX > 0)
@@ -223,23 +161,6 @@ void	ft_texture(t_mlx *mlx, int x)
 	double	texPos = (mlx->drawStart - (SCREEN_HEIGHT / 2) + (mlx->lineHeight / 2)) * step;
 	int		y = mlx->drawStart;
 	int		texNum = 0;
-	
-/* 	if (mlx->wallDir == 'N')
-	{
-		texNum = 0;
-	}
-	else if (mlx->wallDir == 'S')
-	{
-		texNum = 1;
-	}
-	else if (mlx->wallDir == 'E')
-	{
-		texNum = 2;
-	}
-	else if (mlx->wallDir == 'W')
-	{
-		texNum = 3;
-	} */
 
 	if (mlx->wallDir == 'N')
 	{
@@ -283,23 +204,18 @@ void	ft_texture(t_mlx *mlx, int x)
 void	ft_sprites(t_mlx *mlx)
 {
 	//SPRITE CASTING
-    //sort sprites from far to close
 	int		i = 0;
-	while (i < NUM_SPRITES)
-	{
- 		spriteOrder[i] = i;
-    	spriteDistance[i] = ((mlx->player.posX - sprite[i].x) * (mlx->player.posX - sprite[i].x) + (mlx->player.posY - sprite[i].y) * (mlx->player.posY - sprite[i].y)); //sqrt not taken, unneeded
-		i++;
-	}
-    //sortSprites(spriteOrder, spriteDistance, NUM_SPRITES);
+ 
+    //sort sprites from far to close
+	ft_sort_sprites(mlx);
 
 	//after sorting the sprites, do the projection and draw them
 	i = 0;
-	while (i < NUM_SPRITES)
+	while (i < mlx->sprite_num)
 	{
 		//translate sprite position to relative to camera
-    	double spriteX = sprite[spriteOrder[i]].x - mlx->player.posX;
-    	double spriteY = sprite[spriteOrder[i]].y - mlx->player.posY;
+    	double spriteX = mlx->sprite[mlx->sprite_order[i]].x - mlx->player.posX;
+    	double spriteY = mlx->sprite[mlx->sprite_order[i]].y - mlx->player.posY;
 
     	//transform sprite with the inverse camera matrix
 		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
