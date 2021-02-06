@@ -56,7 +56,7 @@ int		check_for_player(int x, int y, t_mlx *mlx)
 	char	spot;
 
 	spot = mlx->world_map[x][y];
-	if (spot != '0' && spot != '1' && spot != '2' && spot != ' ')
+	if (spot != '0' && spot != '1' && spot != '2' && spot != ' ' && spot != '\0')
 	{
 		get_player_details(spot, x, y, mlx);
 		return (1);

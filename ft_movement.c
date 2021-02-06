@@ -111,6 +111,6 @@ int		ft_key_released(int key, t_mlx *mlx)
 	if (key == 124)
 		mlx->keys.right = 0;
 	if (key == 53)
-		ft_close_game(mlx);
+		ft_close_game(mlx, 0);
 	return (0);
 }

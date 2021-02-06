@@ -23,7 +23,7 @@ void	verify_textures(t_mlx *mlx)
 		ft_put_error("Sprite texture file does not exist!", mlx);
 }
 
-int		ft_close_game(t_mlx *mlx)
+int		ft_close_game(t_mlx *mlx, int ret)
 {
 	int		i;
 
@@ -44,13 +44,15 @@ int		ft_close_game(t_mlx *mlx)
 		free(mlx->path.east_path);
 	if (mlx->status.sprite_done)
 		free(mlx->path.sprite_path);
-	exit(EXIT_SUCCESS);
+	if (ret == 0)
+		exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_put_error(char *error, t_mlx *mlx)
 {
 	ft_printf("Error:\n\033[0;31m\t%s\n", error);
-	ft_close_game(mlx);
+	ft_close_game(mlx, 1);
 }
 
 void	ft_check_vars(t_mlx *mlx)

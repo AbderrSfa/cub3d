@@ -177,7 +177,7 @@ int 	        ft_count_sprites(t_mlx *mlx);
 void			ft_sort_sprites(t_mlx *mlx);
 int				check_file(char *file_path);
 void			ft_put_error(char *error, t_mlx *mlx);
-int				ft_close_game(t_mlx *mlx);
+int				ft_close_game(t_mlx *mlx, int ret);
 void			ft_initialize(t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
 void			ft_movement(t_mlx *mlx);

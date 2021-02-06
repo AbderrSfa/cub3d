@@ -29,7 +29,7 @@ void	ft_start_game(t_mlx *mlx)
 	ft_initialize(mlx);
 	mlx_hook(mlx->window.win_ptr, 2, (1L<<0), ft_key_pressed, mlx);
 	mlx_hook(mlx->window.win_ptr, 3, (1L<<1), ft_key_released, mlx);
-  mlx_hook(mlx->window.win_ptr, 17, (1L<<5), ft_close_game, mlx);
+	mlx_hook(mlx->window.win_ptr, 17, (1L<<5), ft_close_game, mlx);
 	mlx_loop_hook(mlx->window.mlx_ptr, ft_update, mlx);
 	mlx_loop(mlx->window.mlx_ptr);
 }
@@ -43,14 +43,14 @@ int		main(int argc, char **argv)
 	if (argc == 2 && name_checker(argv[1]))
 	{
 		ft_read_map(&mlx, argv[1]);
-    ft_printf("Game Map:\n");
+		ft_printf("Game Map:\n");
 		for (int i = 0; i < mlx.map_width; i++)
 		{
 			for (int j = 0; j < mlx.map_height; j++)
 				ft_printf("%c,", mlx.world_map[i][j]);
 			ft_printf("\n");
 		}
-	  ft_start_game(&mlx);
+		ft_start_game(&mlx);
 	}
 	else
 		ft_put_error("Invalid arguments!", &mlx);
