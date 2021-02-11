@@ -10,6 +10,8 @@ int		ft_update(t_mlx *mlx)
 	ft_draw_ceiling_floor(mlx);
 	ft_draw_walls(mlx);
 	free(mlx->ZBuffer);
+	if (mlx->save_arg == 1)
+		ft_screenshot(mlx);
 	mlx_put_image_to_window(mlx->window.mlx_ptr, mlx->window.win_ptr, mlx->img.img_ptr, 0, 0);
 	mlx_destroy_image(mlx->window.mlx_ptr, mlx->img.img_ptr);
 	return (0);

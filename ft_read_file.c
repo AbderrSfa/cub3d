@@ -251,6 +251,7 @@ int		parse_lines(char *line, t_mlx *mlx)
 
 void	ft_init_vars(t_mlx *mlx)
 {
+	mlx->save_arg = 0;
 	mlx->status.res_done = 0;
 	mlx->status.north_done = 0;
 	mlx->status.south_done = 0;
@@ -302,6 +303,18 @@ void	ft_read_map(t_mlx *mlx, char *file)
 	player_position(mlx);
 	ft_map_checker(mlx);
 	mlx->sprite = ft_get_sprites(mlx);
+}
+
+int		save_checker(char *arg)
+{
+	int		i;
+
+	i = 0;
+	while (arg[i])
+		i++;
+	if (arg[i - 1] == 'e' && arg[i - 2] == 'v' && arg[i - 3] == 'a' && arg[i - 4] == 's' && arg[i - 5] == '-' && arg[i - 6] == '-')
+		return (1);
+	return (0);
 }
 
 int		name_checker(char *arg)

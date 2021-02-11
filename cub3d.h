@@ -120,38 +120,82 @@ typedef struct	s_status
 	int			player_done;
 }				t_status;
 
+# pragma pack(push, 1)
+
+typedef struct		s_bitmapfile
+{
+	uint16_t		file_type;
+	uint32_t		file_size;
+	uint16_t		reserved_1;
+	uint16_t		reserved_2;
+	uint32_t		pixel_offset;
+}					t_bitmapfile;
+
+typedef struct		s_bitmapinfo
+{
+	uint32_t		header_size;
+	int32_t			bmp_width;
+	int32_t			bmp_height;
+	uint16_t		num_planes;
+	uint16_t		bits_per_pixel;
+	uint32_t		compression;
+	uint32_t		image_size;
+	int32_t			xpixelpermeter;
+	int32_t			ypixelpermeter;
+	uint32_t		total_colors;
+	uint32_t		important_colors;
+}					t_bitmapinfo;
+
+# pragma pack(pop)
+
+typedef struct		s_screenshot
+{
+	int				width;
+	int				height;
+	int				bitcount;
+	int				red;
+	int				blue;
+	int				green;
+	int				width_in_bytes;
+	uint32_t		imagesize;
+	unsigned char	*buf;
+}					t_screenshot;
+
 typedef struct	s_mlx
 {
-	t_window	window;
-	t_player	player;
-	t_keys		keys;
-	t_img		img;
-	t_tex		tex;
-	t_paths		path;
-	t_status	status;	
-	t_sprite	*sprite;
-	int			mapX;
-	int			mapY;
-	int			side;			//was it a NS or a EW wall hit;
-	double		perpWallDist;
-	double		rayDirX;
-	double		rayDirY;
-	int			lineHeight;
-	int			drawStart;
-	int			drawEnd;
-	char		wallDir;
-	char		**lines;
-	int			lines_count;
-	int			map_height;
-	int			map_width;
-	int			**world_map;
-	int			*sprite_order;
-	int			sprite_num;
-	double		*ZBuffer;
+	t_window		window;
+	t_player		player;
+	t_keys			keys;
+	t_img			img;
+	t_tex			tex;
+	t_paths			path;
+	t_status		status;	
+	t_sprite		*sprite;
+	t_screenshot	*screenshot;
+	int				mapX;
+	int				mapY;
+	int				side;			//was it a NS or a EW wall hit;
+	double			perpWallDist;
+	double			rayDirX;
+	double			rayDirY;
+	int				lineHeight;
+	int				drawStart;
+	int				drawEnd;
+	char			wallDir;
+	char			**lines;
+	int				lines_count;
+	int				map_height;
+	int				map_width;
+	int				**world_map;
+	int				*sprite_order;
+	int				sprite_num;
+	double			*ZBuffer;
+	int				save_arg;
 }				t_mlx;
 
 int				name_checker(char *arg);
-void			ft_start_game(t_mlx *mlx);
+int				save_checker(char *arg);
+void			ft_start_game(t_mlx *mlx, int save);
 void			ft_read_map(t_mlx *mlx, char *file);
 void			ft_init_vars(t_mlx *mlx);
 char			**get_lines(char **lines, char *file);
@@ -174,6 +218,10 @@ void			ft_map_checker(t_mlx *mlx);
 void			check_spot(t_mlx *mlx, int x, int y);
 t_sprite 	   *ft_get_sprites(t_mlx *mlx);
 int 	        ft_count_sprites(t_mlx *mlx);
+void			ft_screenshot(t_mlx *mlx);
+t_screenshot	*ft_init_shot(t_mlx *mlx);
+void			ft_screen_meta(t_mlx *mlx);
+void			ft_fill_shot(t_mlx *mlx, unsigned char *buf);
 void			ft_sort_sprites(t_mlx *mlx);
 int				check_file(char *file_path);
 void			ft_put_error(char *error, t_mlx *mlx);

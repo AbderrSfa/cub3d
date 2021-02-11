@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 16:39:53 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/01/18 12:03:07 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/11 16:25:16 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void				ft_putnbr(long n);
 void				ft_putnbr_g(long n, t_set *group);
 void				ft_special_putnbr(long n, t_set *group);
 int					ft_intsize(long nb);
+void				*ft_memcpy(void *dst, void *src, size_t n);
 int					ft_printf(char const *s, ...);
 void				struct_filler(char *s, va_list list, t_set *group);
 int					struct_filler_2(char *s, va_list list, t_set *group, int i);

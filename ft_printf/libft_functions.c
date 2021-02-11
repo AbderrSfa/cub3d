@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 16:38:42 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/01/18 12:03:04 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/11 16:24:54 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,25 @@ void	ft_special_putnbr(long n, t_set *group)
 			i = (i / 10);
 		}
 	}
+}
+
+void	*ft_memcpy(void *dst, void *src, size_t n)
+{
+	size_t			i;
+	unsigned char	*x;
+	unsigned char	*y;
+
+	x = src;
+	y = dst;
+	i = 0;
+	if (src == dst)
+		return (dst);
+	if ((dst == NULL) && (src == NULL))
+		return (NULL);
+	while (i < n)
+	{
+		y[i] = x[i];
+		i++;
+	}
+	return (y);
 }
