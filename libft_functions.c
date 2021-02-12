@@ -6,11 +6,11 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 16:38:42 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/11 16:24:54 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/12 18:36:55 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "cub3d.h"
 
 void	ft_putchar(char c)
 {
@@ -25,24 +25,7 @@ int		ft_isdigit(int c)
 		return (0);
 }
 
-void	ft_putchar_g(char c, t_set *group)
-{
-	write(1, &c, 1);
-	group->ret += 1;
-}
-
-void	ft_putstr_g(char *s, t_set *group)
-{
-	if (s == NULL)
-		return ;
-	while (*s)
-	{
-		ft_putchar_g(*s, group);
-		s++;
-	}
-}
-
-void	ft_putnbr_g(long n, t_set *group)
+void	ft_putnbr(long n)
 {
 	long i;
 	long bn;
@@ -50,43 +33,19 @@ void	ft_putnbr_g(long n, t_set *group)
 	bn = n;
 	i = 1;
 	if (n == 0)
-		ft_putchar_g('0', group);
+		ft_putchar('0');
 	else
 	{
 		if (n < 0)
 		{
 			bn = -bn;
-			ft_putchar_g('-', group);
+			ft_putchar('-');
 		}
 		while ((bn / (i * 10)) != 0)
 			i = (i * 10);
 		while (i != 0)
 		{
-			ft_putchar_g((bn / i) + 48, group);
-			bn = (bn % i);
-			i = (i / 10);
-		}
-	}
-}
-
-void	ft_special_putnbr(long n, t_set *group)
-{
-	long i;
-	long bn;
-
-	bn = n;
-	i = 1;
-	if (n == 0)
-		ft_putchar_g('0', group);
-	else
-	{
-		if (n < 0)
-			bn = -bn;
-		while ((bn / (i * 10)) != 0)
-			i = (i * 10);
-		while (i != 0)
-		{
-			ft_putchar_g((bn / i) + 48, group);
+			ft_putchar((bn / i) + 48);
 			bn = (bn % i);
 			i = (i / 10);
 		}
@@ -112,4 +71,24 @@ void	*ft_memcpy(void *dst, void *src, size_t n)
 		i++;
 	}
 	return (y);
+}
+
+int		ft_intsize(long nb)
+{
+	int		l;
+
+	l = 0;
+	if (nb == 0)
+		l++;
+	if (nb < 0)
+	{
+		nb = -nb;
+		l++;
+	}
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		l++;
+	}
+	return (l);
 }

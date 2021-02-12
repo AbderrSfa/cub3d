@@ -6,11 +6,11 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 16:53:52 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/01/14 12:14:37 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/12 18:34:08 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "cub3d.h"
 
 void			ft_putstr(char *s)
 {
@@ -66,7 +66,7 @@ int				ft_atoi(const char *str)
 	return (a * c);
 }
 
-static size_t	ft_smallest(const char *s, unsigned int start, size_t len)
+size_t			ft_smallest(const char *s, unsigned int start, size_t len)
 {
 	if (len > ft_strlen(s + start))
 		return (ft_strlen(s + start) + 1);

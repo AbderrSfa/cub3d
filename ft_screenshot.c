@@ -24,7 +24,7 @@ void				ft_screenshot(t_mlx *mlx)
 		ft_put_error("Bitmap file metadata not setup properly\n", mlx);
 	mlx->screenshot = ft_init_shot(mlx);
 	ft_screen_meta(mlx);
-	ft_printf("Screenshot has been saved under the filename 'screenshot.bmp'.\n");
+	ft_putstr("Screenshot has been saved under the filename 'screenshot.bmp'.\n");
 	ft_close_game(mlx, 0);
 }
 
@@ -63,8 +63,7 @@ void				ft_screen_meta(t_mlx *mlx)
 
 	fileheader = (t_bitmapfile){ 0 };
 	infoheader = (t_bitmapinfo){ 0 };
-/* 	image = fopen("screenshot.bmp", "wb");
- */	ft_memcpy(&fileheader, "BM", 2);
+	ft_memcpy(&fileheader, "BM", 2);
 	fileheader.file_size = 54 + mlx->screenshot->imagesize;
 	fileheader.pixel_offset = 54;
 	infoheader.header_size = 40;
@@ -76,11 +75,7 @@ void				ft_screen_meta(t_mlx *mlx)
 	ft_fill_shot(mlx, mlx->screenshot->buf);
 	write(fd, &fileheader, sizeof(fileheader));
 	write(fd, &infoheader, sizeof(infoheader));
-/* 	fwrite(&fileheader, sizeof(fileheader), 1, image);
-	fwrite(&infoheader, sizeof(infoheader), 1, image); */
 	write(fd, (char *)mlx->screenshot->buf, mlx->screenshot->imagesize);
-/* 	fwrite((char*)mlx->screenshot->buf, 1, mlx->screenshot->imagesize, image);
-	fclose(image); */
 	close(fd);
 	free(mlx->screenshot->buf);
 }

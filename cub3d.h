@@ -7,8 +7,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include "mlx.h"
-# include "get_next_line/get_next_line.h"
-# include "ft_printf/ft_printf.h"
+# include "get_next_line.h"
 
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
