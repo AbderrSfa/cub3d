@@ -9,7 +9,7 @@ int		check_file(char *file_path)
 	return (fd);
 }
 
-void	verify_textures(t_mlx *mlx)
+void	verify_vars(t_mlx *mlx)
 {
 	if (check_file(mlx->path.north_path) == -1)
 		ft_put_error("North texture file does not exist!", mlx);
@@ -21,6 +21,10 @@ void	verify_textures(t_mlx *mlx)
 		ft_put_error("East texture file does not exist!", mlx);
 	if (check_file(mlx->path.sprite_path) == -1)
 		ft_put_error("Sprite texture file does not exist!", mlx);
+	if (mlx->window.screen_height > 1440)
+		mlx->window.screen_height = 1440;
+	if (mlx->window.screen_width > 2560)
+		mlx->window.screen_width = 2560;
 }
 
 int		ft_close_game(t_mlx *mlx, int ret)

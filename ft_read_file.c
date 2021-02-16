@@ -48,30 +48,6 @@ int		get_lines_count(char *file)
 	return (count);
 }
 
-char	**get_lines(char **lines, char *file)
-{
-	char	*temp;
-	int		fd;
-	int		r;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = get_lines_count(file) + 1;
-	lines = (char **)malloc(sizeof(char *) * j);
-	fd = open(file, O_RDONLY);
-	while ((r = get_next_line(fd, &temp)))
-	{
-		lines[i] = ft_strdup(temp);
-		free(temp);
-		i++;
-	}
-	lines[i] = ft_strdup(temp);
-	free(temp);
-	close(fd);
-	return (lines);
-}
-
 void	get_tex_path(char *line, t_mlx *mlx)
 {
 	int		i;
@@ -222,7 +198,7 @@ void	get_resolution(char *line, t_mlx *mlx)
 
 int		parse_lines(char *line, t_mlx *mlx)
 {
-	while (*line == ' ')
+	while (*line == ' ' || *line == '\t')
 		line++;
 	if (*line == '\0')
 		return (0);
@@ -295,7 +271,7 @@ void	ft_read_map(t_mlx *mlx, char *file)
 	if (!ret)
 		ft_put_error("No map included in file!", mlx);
 	ft_check_vars(mlx);
-	verify_textures(mlx);
+	verify_vars(mlx);
 	mlx->map_width = get_map_x(&mlx->lines[i - 1], mlx);
 	mlx->map_height = get_map_y(&mlx->lines[i - 1], mlx);
 	map_allocation(mlx);

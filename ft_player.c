@@ -56,7 +56,7 @@ int		check_for_player(int x, int y, t_mlx *mlx)
 	char	spot;
 
 	spot = mlx->world_map[x][y];
-	if (spot != '0' && spot != '1' && spot != '2' && spot != ' ' && spot != '\0')
+	if (spot != '0' && spot != '1' && spot != '2' && spot != 'x')
 	{
 		get_player_details(spot, x, y, mlx);
 		return (1);
@@ -66,22 +66,21 @@ int		check_for_player(int x, int y, t_mlx *mlx)
 
 void	player_position(t_mlx *mlx)
 {
-	int		x;
-	int		y;
+	int		i;
+	int		j;
 
-	x = 0;
-	y = 0;
+	i = 0;
 	mlx->status.player_done = 0;
-	while (x <= mlx->map_width)
+	while (i <= mlx->map_width)
 	{
-		y = 0;
-		while (y <= mlx->map_height)
+		j = 0;
+		while (j <= mlx->map_height)
 		{
-			if (check_for_player(x, y, mlx))
+			if (check_for_player(i, j, mlx))
 				mlx->status.player_done = 1;
-			y++;
+			j++;
 		}
-		x++;
+		i++;
 	}
 	if (mlx->status.player_done == 0)
 		ft_put_error("No player spawnpoint!", mlx);

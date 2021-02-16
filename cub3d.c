@@ -17,7 +17,7 @@ void  load_textures(t_mlx *mlx)
 
 void	ft_initialize(t_mlx *mlx)
 {
-	mlx->player.moveSpeed = 0.12;
+	mlx->player.moveSpeed = 0.24;
 	mlx->player.rotSpeed = 0.03;
 	mlx->window.mlx_ptr = mlx_init();
 	mlx->window.win_ptr = mlx_new_window(mlx->window.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");

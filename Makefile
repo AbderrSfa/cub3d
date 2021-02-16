@@ -14,7 +14,6 @@ MLX = -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 OBJECT = $(SRC:.c=.o)
 
 all: $(NAME)
-
 	@gcc $(MLX) $(LIBNAME) -o $(NAME)
 	@echo "Compiling game..."
 
