@@ -1,49 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_map_parsing.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/16 12:00:16 by asfaihi           #+#    #+#             */
+/*   Updated: 2021/02/21 13:02:57 by asfaihi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
-
-int		get_map_x(char **lines, t_mlx *mlx)
-{
-	int		i;
-	int		j;
-	int		empty;
-
-	i = 0;
-	j = 0;
-	empty = 0;
-	while (lines[i])
-	{
-		j = 0;
-		while (lines[i][j] == ' ' || lines[i][j] == '\t')
-			j++;
-		if (!lines[i][j])
-			empty = 1;
-		if (lines[i][j] && empty)
-			ft_put_error("Extra input after end of map!", mlx);
-		i++;
-	}
-	return (i);
-}
-
-int		get_map_y(char **lines, t_mlx *mlx)
-{
-	int		i;
-	int		j;
-	int		ret;
-
-
-	i = 0;
-	j = 0;
-	ret = 0;
-	while (lines[i])
-	{
-		j = 0;
-		while (lines[i][j])
-			j++;
-		if (ret < j)
-			ret = j;
-		i++;
-	}
-	return (ret);
-}
 
 void	map_allocation(t_mlx *mlx)
 {
@@ -74,11 +41,10 @@ void	create_map(char **lines, t_mlx *mlx)
 	int		y;
 	int		last_y;
 
-
 	x = 0;
-	i = 0;
+	i = -1;
 	last_y = 0;
-	while (lines[i])
+	while (lines[++i])
 	{
 		y = 0;
 		j = 0;
@@ -87,19 +53,18 @@ void	create_map(char **lines, t_mlx *mlx)
 			while (lines[i][j] == ' ' || lines[i][j] == '\t')
 				j++;
 			if (lines[i][j])
-				mlx->world_map[i][y++] = lines[i][j++];
+				mlx->world_map[x][y++] = lines[i][j++];
 		}
 		if (last_y < y)
 			last_y = y;
 		x++;
-		i++;
 	}
 	mlx->map_height = last_y;
 }
 
 void	check_spot(t_mlx *mlx, int x, int y)
 {
-	int 	**map;
+	int		**map;
 
 	mlx->status.player_done = 0;
 	map = mlx->world_map;
@@ -133,4 +98,27 @@ void	ft_map_checker(t_mlx *mlx)
 		}
 		x++;
 	}
+}
+
+int		ft_count_sprites(t_mlx *mlx)
+{
+	int		x;
+	int		y;
+	int		ret;
+
+	x = 0;
+	y = 0;
+	ret = 0;
+	while (x < mlx->map_width)
+	{
+		y = 0;
+		while (y < mlx->map_height)
+		{
+			if (mlx->world_map[x][y] == '2')
+				ret++;
+			y++;
+		}
+		x++;
+	}
+	return (ret);
 }

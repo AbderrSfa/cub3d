@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_read_file.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/16 12:52:25 by asfaihi           #+#    #+#             */
+/*   Updated: 2021/02/19 12:56:39 by asfaihi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 char	**get_filelines(char **lines, char **temp, int fd)
@@ -48,154 +60,6 @@ int		get_lines_count(char *file)
 	return (count);
 }
 
-void	get_tex_path(char *line, t_mlx *mlx)
-{
-	int		i;
-	int		j;
-
-	i = 2;
-	j = 0;
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	j = i;
-	while (line[j] != ' ' && line[j] != '\0')
-		j++;
-	if (line[0] == 'N')
-	{
-		if (mlx->status.north_done)
-			ft_put_error("North texture path already defined!", mlx);
-		mlx->path.north_path = ft_substr(line, i, j - i);
-		mlx->status.north_done = 1;
-	}
-	else if (line[0] == 'S')
-	{
-		if (mlx->status.south_done)
-			ft_put_error("South texture path already defined!", mlx);
-		mlx->path.south_path = ft_substr(line, i, j - i);
-		mlx->status.south_done = 1;
-	}
-	else if (line[0] == 'W')
-	{
-		if (mlx->status.west_done)
-			ft_put_error("West texture path already defined!", mlx);
-		mlx->path.west_path = ft_substr(line, i, j - i);
-		mlx->status.west_done = 1;
-	}
-	else if (line[0] == 'E')
-	{
-		if (mlx->status.east_done)
-			ft_put_error("East texture path already defined!", mlx);
-		mlx->path.east_path = ft_substr(line, i, j - i);
-		mlx->status.east_done = 1;
-	}
-	while (line[j] == ' ' || line[j] == '\t')
-		j++;
-	if (line[j])
-		ft_put_error("Extra input next to texture path!", mlx);
-}
-
-void	get_color(char *line, t_mlx *mlx, char type)
-{
-	int		i;
-	int		count;
-	int		color;
-	int		commas;
-
-	i = 0;
-	count = 0;
-	color = 0;
-	commas = 0;
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	while (count < 3)
-	{
-		while (line[i] == ' ' || line[i] == '\t')
-			i++;
-		if (!ft_isdigit(line[i]))
-			ft_put_error("Invalid color input!", mlx);
-		color = color * 256 + ft_atoi(line + i);
-		i += ft_intsize(ft_atoi(line + i));
-		count++;
-		if (count == 3)
-			break;
-		while (line[i] == ' ' || line[i] == '\t')
-			i++;
-		if (line[i] == ',')
-		{
-			commas++;
-			i++;
-		}
-	}
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	if (commas != 2)
-		ft_put_error("Invalid color input!", mlx);
-	if (line[i])
-		ft_put_error("Too many color inputs!", mlx);
-	if (type == 'C')
-	{
-		if (mlx->status.ceiling_done)
-			ft_put_error("Ceiling color already defined!", mlx);
-		mlx->window.ceiling_color = color;
-		mlx->status.ceiling_done = 1;
-	}
-	else
-	{
-		if (mlx->status.floor_done)
-			ft_put_error("Floor color already defined!", mlx);
-		mlx->window.floor_color = color;
-		mlx->status.floor_done = 1;
-	}
-}
-
-void	get_sprite_path(char *line, t_mlx *mlx)
-{
-	int		i;
-	int		j;
-
-	i = 1;
-	j = 0;
-	if (mlx->status.sprite_done)
-		ft_put_error("Sprite path already defined!", mlx);
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	j = i;
-	while (line[j] != ' ' && line[j] != '\0')
-		j++;
-	mlx->path.sprite_path = ft_substr(line, i, j - i);
-	mlx->status.sprite_done = 1;
-	while (line[j] == ' ' || line[j] == '\t')
-		j++;
-	if (line[j])
-		ft_put_error("Extra input next to sprite path!", mlx);
-}
-
-void	get_resolution(char *line, t_mlx *mlx)
-{
-	int		i;
-
-	i = 1;
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	if (mlx->status.res_done)
-		ft_put_error("Resolution identifier already defined!", mlx);
-	if (!ft_isdigit(line[i]))
-		ft_put_error("Invalid resolution input!", mlx);
-	mlx->window.screen_width = ft_atoi(line + i);
-	i += ft_intsize(mlx->window.screen_width);
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	if (!ft_isdigit(line[i]))
-		ft_put_error("Invalid resolution input!", mlx);
-	mlx->window.screen_height = ft_atoi(line + i);
-	i += ft_intsize(mlx->window.screen_height);
-	while (line[i] == ' ' || line[i] == '\t')
-		i++;
-	if (line[i])
-		ft_put_error("Invalid resolution input!", mlx);
-	mlx->status.res_done = 1;
-}
-
 int		parse_lines(char *line, t_mlx *mlx)
 {
 	while (*line == ' ' || *line == '\t')
@@ -206,13 +70,9 @@ int		parse_lines(char *line, t_mlx *mlx)
 		get_resolution(line, mlx);
 	else if (*line == 'S' && *(line + 1) == ' ')
 		get_sprite_path(line, mlx);
-	else if ((*line == 'C' && *(line + 1) == ' ') || (*line == 'F' && *(line + 1) == ' '))
-	{
-		if (*line == 'C')
-			get_color(&(*++line), mlx, 'C');
-		else
-			get_color(&(*++line), mlx, 'F');
-	}
+	else if ((*line == 'C' && *(line + 1) == ' ') ||
+		(*line == 'F' && *(line + 1) == ' '))
+		parse_color(line, mlx);
 	else if ((*line == 'N' && *(line + 1) == 'O' && *(line + 2) == ' ') ||
 	(*line == 'S' && *(line + 1) == 'O' && *(line + 2) == ' ') ||
 	(*line == 'W' && *(line + 1) == 'E' && *(line + 2) == ' ') ||
@@ -225,26 +85,16 @@ int		parse_lines(char *line, t_mlx *mlx)
 	return (0);
 }
 
-void	ft_init_vars(t_mlx *mlx)
+void	ft_read_map_2(t_mlx *mlx, int i)
 {
-	mlx->save_arg = 0;
-	mlx->status.res_done = 0;
-	mlx->status.north_done = 0;
-	mlx->status.south_done = 0;
-	mlx->status.west_done = 0;
-	mlx->status.east_done = 0;
-	mlx->status.sprite_done = 0;
-	mlx->status.floor_done = 0;
-	mlx->status.ceiling_done = 0;
-	mlx->window.screen_width = 0;
-	mlx->window.screen_height = 0;
-	mlx->path.north_path = NULL;
-	mlx->path.south_path = NULL;
-	mlx->path.west_path = NULL;
-	mlx->path.east_path = NULL;
-	mlx->path.sprite_path = NULL;
-	mlx->window.floor_color = 0;
-	mlx->window.ceiling_color = 0;
+	verify_vars(mlx);
+	mlx->map_width = get_map_x(&mlx->lines[i - 1], mlx);
+	mlx->map_height = get_map_y(&mlx->lines[i - 1], mlx);
+	map_allocation(mlx);
+	create_map(&mlx->lines[i - 1], mlx);
+	player_position(mlx);
+	ft_map_checker(mlx);
+	mlx->sprite = ft_get_sprites(mlx);
 }
 
 void	ft_read_map(t_mlx *mlx, char *file)
@@ -271,36 +121,5 @@ void	ft_read_map(t_mlx *mlx, char *file)
 	if (!ret)
 		ft_put_error("No map included in file!", mlx);
 	ft_check_vars(mlx);
-	verify_vars(mlx);
-	mlx->map_width = get_map_x(&mlx->lines[i - 1], mlx);
-	mlx->map_height = get_map_y(&mlx->lines[i - 1], mlx);
-	map_allocation(mlx);
-	create_map(&mlx->lines[i - 1], mlx);
-	player_position(mlx);
-	ft_map_checker(mlx);
-	mlx->sprite = ft_get_sprites(mlx);
-}
-
-int		save_checker(char *arg)
-{
-	int		i;
-
-	i = 0;
-	while (arg[i])
-		i++;
-	if (arg[i - 1] == 'e' && arg[i - 2] == 'v' && arg[i - 3] == 'a' && arg[i - 4] == 's' && arg[i - 5] == '-' && arg[i - 6] == '-')
-		return (1);
-	return (0);
-}
-
-int		name_checker(char *arg)
-{
-	int		i;
-
-	i = 0;
-	while (arg[i])
-		i++;
-	if (arg[i - 1] == 'b' && arg[i - 2] == 'u' && arg[i - 3] == 'c' && arg[i - 4] == '.')
-		return (1);
-	return (0);
+	ft_read_map_2(mlx, i);
 }

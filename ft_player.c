@@ -1,41 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_player.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/16 11:42:03 by asfaihi           #+#    #+#             */
+/*   Updated: 2021/02/21 11:40:32 by asfaihi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void	set_cameraew(char spot, t_mlx *mlx)
+void	set_camera_ew(char spot, t_mlx *mlx)
 {
 	if (spot == 'W')
 	{
-		mlx->player.dirX = 0;
-		mlx->player.dirY = -1;
-		mlx->player.planeX = -0.66;
-		mlx->player.planeY = 0;
+		mlx->player.dirx = 0;
+		mlx->player.diry = -1;
+		mlx->player.planex = -0.66;
+		mlx->player.planey = 0;
 	}
 	else if (spot == 'E')
 	{
-		mlx->player.dirX = 0;
-		mlx->player.dirY = 1;
-		mlx->player.planeX = 0.66;
-		mlx->player.planeY = 0;
+		mlx->player.dirx = 0;
+		mlx->player.diry = 1;
+		mlx->player.planex = 0.66;
+		mlx->player.planey = 0;
 	}
 }
 
-void	set_camerans(char dir, t_mlx *mlx)
+void	set_camera_ns(char dir, t_mlx *mlx)
 {
 	if (dir == 'N')
 	{
-		mlx->player.dirX = -1;
-		mlx->player.dirY = 0;
-		mlx->player.planeX = 0;
-		mlx->player.planeY = 0.66;
+		mlx->player.dirx = -1;
+		mlx->player.diry = 0;
+		mlx->player.planex = 0;
+		mlx->player.planey = 0.66;
 	}
 	else if (dir == 'S')
 	{
-		mlx->player.dirX = 1;
-		mlx->player.dirY = 0;
-		mlx->player.planeX = 0;
-		mlx->player.planeY = -0.66;
+		mlx->player.dirx = 1;
+		mlx->player.diry = 0;
+		mlx->player.planex = 0;
+		mlx->player.planey = -0.66;
 	}
 }
-
 
 void	get_player_details(char spot, int x, int y, t_mlx *mlx)
 {
@@ -43,12 +54,12 @@ void	get_player_details(char spot, int x, int y, t_mlx *mlx)
 		ft_put_error("Multiple spawnpoints!", mlx);
 	if (spot != 'N' && spot != 'S' && spot != 'W' && spot != 'E')
 		ft_put_error("Invalid map character!", mlx);
-	mlx->player.posX = x + 0.5;
-	mlx->player.posY = y + 0.5;
+	mlx->player.posx = x + 0.5;
+	mlx->player.posy = y + 0.5;
 	if (spot == 'N' || spot == 'S')
-		set_camerans(spot, mlx);
+		set_camera_ns(spot, mlx);
 	else
-		set_cameraew(spot, mlx);
+		set_camera_ew(spot, mlx);
 }
 
 int		check_for_player(int x, int y, t_mlx *mlx)

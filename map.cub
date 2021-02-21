@@ -2,16 +2,15 @@
 F       138, 138, 138
 C     56, 56, 56
 
-S ./textures/barrel.XPM   
+S ./textures/barrel.XPM
 
 NO         ./textures/greystone.XPM
 
-SO        ./textures/redbrick.XPM   
-WE       ./textures/colorstone.XPM   
+SO        ./textures/redbrick.XPM
+WE       ./textures/colorstone.XPM
 
-EA        ./textures/eagle.XPM   
-R 1280  720   
-
+EA        ./textures/eagle.XPM
+R 1920  1080
 
 111111111111
 122202020011

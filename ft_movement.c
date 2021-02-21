@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_movement.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/16 12:25:37 by asfaihi           #+#    #+#             */
+/*   Updated: 2021/02/18 11:28:18 by asfaihi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int		check_movement(int x, int y, t_mlx *mlx)
@@ -7,88 +19,83 @@ int		check_movement(int x, int y, t_mlx *mlx)
 	return (0);
 }
 
-void	ft_movement(t_mlx *mlx)
+void	ft_move_left_right(t_mlx *mlx)
 {
-
-		if (mlx->keys.W == 1)
+	if (mlx->keys.d == 1)
 	{
-		if (check_movement((int)(mlx->player.posX + mlx->player.dirX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
-			mlx->player.posX += mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY + mlx->player.dirY * mlx->player.moveSpeed), mlx))
-			mlx->player.posY += mlx->player.dirY * mlx->player.moveSpeed * 0.5;
+		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy -
+			mlx->player.dirx * mlx->player.movespeed), mlx))
+			mlx->player.posy -= mlx->player.dirx * mlx->player.movespeed * 0.5;
+		if (check_movement((int)(mlx->player.posx + mlx->player.diry *
+			mlx->player.movespeed), (int)mlx->player.posy, mlx))
+			mlx->player.posx += mlx->player.diry * mlx->player.movespeed * 0.5;
 	}
-	if (mlx->keys.S == 1)
+	if (mlx->keys.a == 1)
 	{
-		if (check_movement((int)(mlx->player.posX - mlx->player.dirX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
-			mlx->player.posX -= mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY - mlx->player.dirY * mlx->player.moveSpeed), mlx))
-			mlx->player.posY -= mlx->player.dirY * mlx->player.moveSpeed * 0.5;
-	}
-	if (mlx->keys.D == 1)
-	{
-		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY - mlx->player.dirX * mlx->player.moveSpeed), mlx))
-			mlx->player.posY -= mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (check_movement((int)(mlx->player.posX + mlx->player.dirY * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
-			mlx->player.posX += mlx->player.dirY * mlx->player.moveSpeed * 0.5;
-	}
-	if (mlx->keys.A == 1)
-	{
-		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY + mlx->player.dirX * mlx->player.moveSpeed), mlx))
-			mlx->player.posY += mlx->player.dirX * mlx->player.moveSpeed * 0.5;
-		if (check_movement((int)(mlx->player.posX - mlx->player.dirY * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
-			mlx->player.posX -= mlx->player.dirY * mlx->player.moveSpeed * 0.5;
+		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy +
+			mlx->player.dirx * mlx->player.movespeed), mlx))
+			mlx->player.posy += mlx->player.dirx * mlx->player.movespeed * 0.5;
+		if (check_movement((int)(mlx->player.posx - mlx->player.diry *
+			mlx->player.movespeed), (int)mlx->player.posy, mlx))
+			mlx->player.posx -= mlx->player.diry * mlx->player.movespeed * 0.5;
 	}
 	//strafe to the right and left like in Lodev
-/* 	if (mlx->keys.D == 1)
+/* 	if (mlx->keys.d == 1)
 	{
-		if (check_movement((int)(mlx->player.posX + mlx->player.planeX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
-			mlx->player.posX += mlx->player.planeX * mlx->player.moveSpeed * 0.5;
-		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY + mlx->player.planeY * mlx->player.moveSpeed), mlx))
-			mlx->player.posY += mlx->player.planeY * mlx->player.moveSpeed * 0.5;
+		if (check_movement((int)(mlx->player.posx + mlx->player.planeX *
+			mlx->player.movespeed), (int)mlx->player.posy, mlx))
+			mlx->player.posx += mlx->player.planeX * mlx->player.moveSpd * 0.5;
+		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy +
+			mlx->player.planeY * mlx->player.movespeed), mlx))
+			mlx->player.posy += mlx->player.planeY * mlx->player.moveSpd * 0.5;
 	}
-	if (mlx->keys.A == 1)
+	if (mlx->keys.a == 1)
 	{
-		if (check_movement((int)(mlx->player.posX - mlx->player.planeX * mlx->player.moveSpeed), (int)mlx->player.posY, mlx))
-			mlx->player.posX -= mlx->player.planeX * mlx->player.moveSpeed * 0.5;
-		if (check_movement((int)mlx->player.posX, (int)(mlx->player.posY - mlx->player.planeY * mlx->player.moveSpeed), mlx))
-			mlx->player.posY -= mlx->player.planeY * mlx->player.moveSpeed * 0.5;
+		if (check_movement((int)(mlx->player.posx - mlx->player.planeX *
+			mlx->player.movespeed), (int)mlx->player.posy, mlx))
+			mlx->player.posx -= mlx->player.planeX * mlx->player.moveSpd * 0.5;
+		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy -
+			mlx->player.planeY * mlx->player.movespeed), mlx))
+			mlx->player.posy -= mlx->player.planeY * mlx->player.moveSpd * 0.5;
 	} */
-	if (mlx->keys.right == 1 || mlx->keys.left == 1)
-		ft_rotation(mlx);
 }
 
-void	ft_rotation(t_mlx *mlx)
+void	ft_movement(t_mlx *mlx)
 {
-	if (mlx->keys.right == 1)
+	if (mlx->keys.w == 1)
 	{
-		double oldDirX = mlx->player.dirX;
-		mlx->player.dirX = (mlx->player.dirX * cos(-mlx->player.rotSpeed)) - (mlx->player.dirY * sin(-mlx->player.rotSpeed));
-		mlx->player.dirY = (oldDirX * sin(-mlx->player.rotSpeed)) + (mlx->player.dirY * cos(-mlx->player.rotSpeed));
-		double oldPlaneX = mlx->player.planeX;
-		mlx->player.planeX = (mlx->player.planeX * cos(-mlx->player.rotSpeed)) - (mlx->player.planeY * sin(-mlx->player.rotSpeed));
-		mlx->player.planeY = (oldPlaneX * sin(-mlx->player.rotSpeed)) + (mlx->player.planeY * cos(-mlx->player.rotSpeed));
+		if (check_movement((int)(mlx->player.posx + mlx->player.dirx *
+			mlx->player.movespeed), (int)mlx->player.posy, mlx))
+			mlx->player.posx += mlx->player.dirx * mlx->player.movespeed * 0.5;
+		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy +
+			mlx->player.diry * mlx->player.movespeed), mlx))
+			mlx->player.posy += mlx->player.diry * mlx->player.movespeed * 0.5;
 	}
-	if (mlx->keys.left == 1)
+	if (mlx->keys.s == 1)
 	{
-		double oldDirX = mlx->player.dirX;
-		mlx->player.dirX = (mlx->player.dirX * cos(mlx->player.rotSpeed)) - (mlx->player.dirY * sin(mlx->player.rotSpeed));
-		mlx->player.dirY = (oldDirX * sin(mlx->player.rotSpeed)) + (mlx->player.dirY * cos(mlx->player.rotSpeed));
-		double oldPlaneX = mlx->player.planeX;
-		mlx->player.planeX = (mlx->player.planeX * cos(mlx->player.rotSpeed)) - (mlx->player.planeY * sin(mlx->player.rotSpeed));
-		mlx->player.planeY = (oldPlaneX * sin(mlx->player.rotSpeed)) + (mlx->player.planeY * cos(mlx->player.rotSpeed));
+		if (check_movement((int)(mlx->player.posx - mlx->player.dirx *
+			mlx->player.movespeed), (int)mlx->player.posy, mlx))
+			mlx->player.posx -= mlx->player.dirx * mlx->player.movespeed * 0.5;
+		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy -
+			mlx->player.diry * mlx->player.movespeed), mlx))
+			mlx->player.posy -= mlx->player.diry * mlx->player.movespeed * 0.5;
 	}
+	if (mlx->keys.d == 1 || mlx->keys.a == 1)
+		ft_move_left_right(mlx);
+	if (mlx->keys.right == 1 || mlx->keys.left == 1)
+		ft_rotation(mlx);
 }
 
 int		ft_key_pressed(int key, t_mlx *mlx)
 {
 	if (key == 13)
-		mlx->keys.W = 1;
+		mlx->keys.w = 1;
 	if (key == 1)
-		mlx->keys.S = 1;
+		mlx->keys.s = 1;
 	if (key == 0)
-		mlx->keys.A = 1;
+		mlx->keys.a = 1;
 	if (key == 2)
-		mlx->keys.D = 1;
+		mlx->keys.d = 1;
 	if (key == 123)
 		mlx->keys.left = 1;
 	if (key == 124)
@@ -99,13 +106,13 @@ int		ft_key_pressed(int key, t_mlx *mlx)
 int		ft_key_released(int key, t_mlx *mlx)
 {
 	if (key == 13)
-		mlx->keys.W = 0;
+		mlx->keys.w = 0;
 	if (key == 1)
-		mlx->keys.S = 0;
+		mlx->keys.s = 0;
 	if (key == 0)
-		mlx->keys.A = 0;
+		mlx->keys.a = 0;
 	if (key == 2)
-		mlx->keys.D = 0;
+		mlx->keys.d = 0;
 	if (key == 123)
 		mlx->keys.left = 0;
 	if (key == 124)

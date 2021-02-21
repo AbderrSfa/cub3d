@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_put_error.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/16 12:05:38 by asfaihi           #+#    #+#             */
+/*   Updated: 2021/02/21 11:19:43 by asfaihi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int		check_file(char *file_path)
@@ -19,12 +31,16 @@ void	verify_vars(t_mlx *mlx)
 		ft_put_error("West texture file does not exist!", mlx);
 	if (check_file(mlx->path.east_path) == -1)
 		ft_put_error("East texture file does not exist!", mlx);
-	if (check_file(mlx->path.sprite_path) == -1)
+	if (check_file(mlx->path.spr_path) == -1)
 		ft_put_error("Sprite texture file does not exist!", mlx);
-	if (mlx->window.screen_height > 1440)
-		mlx->window.screen_height = 1440;
-	if (mlx->window.screen_width > 2560)
-		mlx->window.screen_width = 2560;
+	if (mlx->window.scr_h > 1440)
+		mlx->window.scr_h = 1440;
+	if (mlx->window.scr_w > 2560)
+		mlx->window.scr_w = 2560;
+	if (mlx->window.scr_h < 0)
+		ft_put_error("Invalid resolution input!", mlx);
+	if (mlx->window.scr_w < 0)
+		ft_put_error("Invalid resolution input!", mlx);
 }
 
 int		ft_close_game(t_mlx *mlx, int ret)
@@ -47,7 +63,7 @@ int		ft_close_game(t_mlx *mlx, int ret)
 	if (mlx->status.east_done)
 		free(mlx->path.east_path);
 	if (mlx->status.sprite_done)
-		free(mlx->path.sprite_path);
+		free(mlx->path.spr_path);
 	if (ret == 0)
 		exit(EXIT_SUCCESS);
 	exit(EXIT_FAILURE);
@@ -55,8 +71,6 @@ int		ft_close_game(t_mlx *mlx, int ret)
 
 void	ft_put_error(char *error, t_mlx *mlx)
 {
-/* 	ft_printf("Error:\n\033[0;31m\t%s\n", error);
- */
 	ft_putstr("Error:\n\033[0;31m\t");
 	ft_putstr(error);
 	ft_putstr("\n");
