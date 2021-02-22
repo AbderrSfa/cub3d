@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:11:46 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/18 10:59:31 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/22 15:22:47 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void				ft_fill_shot(t_mlx *mlx, unsigned char *buf)
 
 void				ft_screen_meta(t_mlx *mlx)
 {
-	FILE			*image;
 	t_bitmapfile	fileheader;
 	t_bitmapinfo	infoheader;
 	int				fd;

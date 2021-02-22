@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 12:41:17 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/17 12:41:39 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/22 15:26:41 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		get_map_x(char **lines, t_mlx *mlx)
 	return (i);
 }
 
-int		get_map_y(char **lines, t_mlx *mlx)
+int		get_map_y(char **lines)
 {
 	int		i;
 	int		j;

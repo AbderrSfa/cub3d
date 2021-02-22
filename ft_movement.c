@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:25:37 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/18 11:28:18 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/22 15:14:03 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,6 @@ void	ft_move_left_right(t_mlx *mlx)
 			mlx->player.movespeed), (int)mlx->player.posy, mlx))
 			mlx->player.posx -= mlx->player.diry * mlx->player.movespeed * 0.5;
 	}
-	//strafe to the right and left like in Lodev
-/* 	if (mlx->keys.d == 1)
-	{
-		if (check_movement((int)(mlx->player.posx + mlx->player.planeX *
-			mlx->player.movespeed), (int)mlx->player.posy, mlx))
-			mlx->player.posx += mlx->player.planeX * mlx->player.moveSpd * 0.5;
-		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy +
-			mlx->player.planeY * mlx->player.movespeed), mlx))
-			mlx->player.posy += mlx->player.planeY * mlx->player.moveSpd * 0.5;
-	}
-	if (mlx->keys.a == 1)
-	{
-		if (check_movement((int)(mlx->player.posx - mlx->player.planeX *
-			mlx->player.movespeed), (int)mlx->player.posy, mlx))
-			mlx->player.posx -= mlx->player.planeX * mlx->player.moveSpd * 0.5;
-		if (check_movement((int)mlx->player.posx, (int)(mlx->player.posy -
-			mlx->player.planeY * mlx->player.movespeed), mlx))
-			mlx->player.posy -= mlx->player.planeY * mlx->player.moveSpd * 0.5;
-	} */
 }
 
 void	ft_movement(t_mlx *mlx)

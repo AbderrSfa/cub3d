@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:52:25 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/19 12:56:39 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/22 15:24:39 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_read_map_2(t_mlx *mlx, int i)
 {
 	verify_vars(mlx);
 	mlx->map_width = get_map_x(&mlx->lines[i - 1], mlx);
-	mlx->map_height = get_map_y(&mlx->lines[i - 1], mlx);
+	mlx->map_height = get_map_y(&mlx->lines[i - 1]);
 	map_allocation(mlx);
 	create_map(&mlx->lines[i - 1], mlx);
 	player_position(mlx);
@@ -108,6 +108,7 @@ void	ft_read_map(t_mlx *mlx, char *file)
 		ft_put_error("Map file does not exist!", mlx);
 	i = 0;
 	ret = 0;
+	temp = NULL;
 	mlx->lines = 0;
 	mlx->lines_count = get_lines_count(file);
 	ft_init_vars(mlx);

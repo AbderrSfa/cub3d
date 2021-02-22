@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 10:43:59 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/21 13:03:57 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/22 15:23:40 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ void				west_east_path(char *line, t_mlx *mlx, int i, int j);
 void				ft_check_vars(t_mlx *mlx);
 void				verify_vars(t_mlx *mlx);
 int					get_map_x(char **lines, t_mlx *mlx);
-int					get_map_y(char **lines, t_mlx *mlx);
+int					get_map_y(char **lines);
 void				map_allocation(t_mlx *mlx);
 void				create_map(char **lines, t_mlx *mlx);
 void				player_position(t_mlx *mlx);

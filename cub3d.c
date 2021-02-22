@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:07:24 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/21 11:22:16 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/02/22 16:10:48 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	load_textures(t_mlx *mlx)
 
 void	ft_initialize(t_mlx *mlx)
 {
-	mlx->player.movespeed = 0.24;
+	mlx->player.movespeed = 0.1;
 	mlx->player.rotspeed = 0.04;
 	mlx->window.mlx_ptr = mlx_init();
 	mlx->window.win_ptr = mlx_new_window(mlx->window.mlx_ptr, mlx->window.scr_w,
