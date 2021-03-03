@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 10:43:59 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/22 15:23:40 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:32:35 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,16 @@ typedef struct		s_tex_load
 	void			*text_4;
 	int				height_4;
 	int				width_4;
+
+	int				*text_data_5;
+	void			*text_5;
+	int				height_5;
+	int				width_5;
+
+	int				*text_data_6;
+	void			*text_6;
+	int				height_6;
+	int				width_6;
 }					t_tex_load;
 
 typedef struct		s_draw_sp

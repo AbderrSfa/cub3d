@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:54:54 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/22 11:05:55 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:33:24 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,35 @@
 
 void	ft_draw_ceiling_floor(t_mlx *mlx)
 {
-	int		x;
 	int		y;
 
-	y = -1;
-	while (++y < (mlx->window.scr_h / 2))
-	{
-		x = 0;
-		while (x < mlx->window.scr_w)
-		{
-			mlx->img.data[(y * mlx->window.scr_w) + x] =
-				mlx->window.ceiling_color;
-			x++;
-		}
-	}
+	y = 0;
 	while (y < mlx->window.scr_h)
 	{
-		x = 0;
+		float rayDirX0 = mlx->player.dirx - mlx->player.planex;
+		float rayDirY0 = mlx->player.diry - mlx->player.planey;
+		float rayDirX1 = mlx->player.dirx + mlx->player.planex;
+		float rayDirY1 = mlx->player.diry + mlx->player.planey;
+		int p = y - mlx->window.scr_h / 2;
+		float posZ = 0.5 * mlx->window.scr_h;
+		float rowDistance = posZ / p;
+		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / mlx->window.scr_w;
+		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / mlx->window.scr_w;
+		float floorX = mlx->player.posx + rowDistance * rayDirX0;
+		float floorY = mlx->player.posy + rowDistance * rayDirY0;
+		int	x = 0;
 		while (x < mlx->window.scr_w)
 		{
-			mlx->img.data[(y * mlx->window.scr_w) + x] =
-				mlx->window.floor_color;
+			int cellX = (int)floorX;
+			int cellY = (int)floorY;
+			int tx = (int)(mlx->tex_load.width_1 * (floorX - cellX)) & (mlx->tex_load.width_1 - 1);
+			int ty = (int)(mlx->tex_load.height_1 * (floorY - cellY)) & (mlx->tex_load.height_1 - 1);
+			floorX += floorStepX;
+			floorY += floorStepY;
+			int	color = mlx->tex_load.text_data_6[(mlx->tex_load.width_1 * ty) + tx];
+			mlx->img.data[(y * mlx->window.scr_w) + x] = color;
+			color = mlx->tex_load.text_data_5[(mlx->tex_load.width_1 * ty) + tx];
+			mlx->img.data[(mlx->window.scr_h - y - 1) * mlx->window.scr_w + x] = color;
 			x++;
 		}
 		y++;

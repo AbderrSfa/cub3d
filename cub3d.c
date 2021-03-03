@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:07:24 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/02/22 16:10:48 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:33:03 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ void	load_textures(t_mlx *mlx)
 	mlx->tex_load.text_4 = mlx_xpm_file_to_image(mlx->window.mlx_ptr,
 		mlx->path.east_path, &mlx->tex_load.width_4, &mlx->tex_load.height_4);
 	mlx->tex_load.text_data_4 = (int *)mlx_get_data_addr(mlx->tex_load.text_4,
+		&mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex_load.text_5 = mlx_xpm_file_to_image(mlx->window.mlx_ptr, "textures/light_tiles.XPM",
+		&mlx->tex_load.width_5, &mlx->tex_load.height_5);
+	mlx->tex_load.text_data_5 = (int *)mlx_get_data_addr(mlx->tex_load.text_5,
+		&mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
+	mlx->tex_load.text_6 = mlx_xpm_file_to_image(mlx->window.mlx_ptr, "textures/dark_tiles.XPM",
+		&mlx->tex_load.width_6, &mlx->tex_load.height_6);
+	mlx->tex_load.text_data_6 = (int *)mlx_get_data_addr(mlx->tex_load.text_6,
 		&mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
 	mlx->tex_load.sp_text = mlx_xpm_file_to_image(mlx->window.mlx_ptr,
 		mlx->path.spr_path, &mlx->tex_load.sp_width, &mlx->tex_load.sp_height);
