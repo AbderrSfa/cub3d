@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
-# include <stdio.h>
+# include <stdint.h>
 # include <unistd.h>
 # include "mlx.h"
 # include "get_next_line.h"
