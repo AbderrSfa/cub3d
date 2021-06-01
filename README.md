@@ -1,9 +1,9 @@
-# cub3d
-## Description
+# 🕹 cub3d
+## 🧐 Description
 This project is inspired by the famous 90’s game Wolfenstein 3D, which was the first FPS ever. The aim of the project is to explore ray-casting and create a dynamic view inside a maze.
 
 As a graphic design project, cub3d teaches the handling of: windows, colors, events, images, textures, sprites, file parsing etc. It is also a remarkable playground to explore the practical applications of mathematics as a tool to create elegant and efficient algorithms
-## Usage
+## 🔧 Usage
 To compile the game, run:
 
 `make`
