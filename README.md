@@ -14,6 +14,8 @@ To run the game, use:
 
 If you run the game with `./cub3d <path to map file> --save`. The game will not start, instead it will save the first rendered image in `bmp` format.
 
+## 🎆 Screenshots
+
 <img width="2540" alt="Screen Shot 2021-03-03 at 4 28 53 PM" src="https://user-images.githubusercontent.com/58333462/109830112-76548800-7c3e-11eb-862c-69d144e3e941.png">
 
 <img width="2548" alt="Screen Shot 2021-03-03 at 4 27 46 PM" src="https://user-images.githubusercontent.com/58333462/109830242-971cdd80-7c3e-11eb-9692-2ee647e70430.png">
