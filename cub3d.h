@@ -6,7 +6,7 @@
 /*   By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 10:43:59 by asfaihi           #+#    #+#             */
-/*   Updated: 2021/03/03 16:32:35 by asfaihi          ###   ########.fr       */
+/*   Updated: 2021/06/14 16:28:48 by asfaihi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,65 +265,65 @@ typedef struct		s_mlx
 	int				save_arg;
 }					t_mlx;
 
+int					get_lines_count();
+int					ft_update(t_mlx *mlx);
+void				ft_sprites(t_mlx *mlx);
+void				verify_vars(t_mlx *mlx);
+void				ft_movement(t_mlx *mlx);
+void				ft_rotation(t_mlx *mlx);
+void				draw_sprite(t_mlx *mlx);
 int					name_checker(char *arg);
 int					save_checker(char *arg);
-void				ft_start_game(t_mlx *mlx, int save);
-void				ft_read_map(t_mlx *mlx, char *file);
-void				ft_read_map_2(t_mlx *mlx, int i);
-void				ft_init_vars(t_mlx *mlx);
-char				**get_filelines(char **lines, char **temp, int fd);
-int					get_lines_count();
-int					parse_lines(char *line, t_mlx *mlx);
-void				parse_color(char *line, t_mlx *mlx);
-void				get_resolution(char *line, t_mlx *mlx);
-void				get_sprite_path(char *line, t_mlx *mlx);
-void				get_color(char *line, t_mlx *mlx, char type);
-int					color_parse(char *line, int i, t_mlx *mlx);
-void				get_tex_path(char *line, t_mlx *mlx);
-void				north_south_path(char *line, t_mlx *mlx, int i, int j);
-void				west_east_path(char *line, t_mlx *mlx, int i, int j);
-void				ft_check_vars(t_mlx *mlx);
-void				verify_vars(t_mlx *mlx);
-int					get_map_x(char **lines, t_mlx *mlx);
 int					get_map_y(char **lines);
-void				map_allocation(t_mlx *mlx);
-void				create_map(char **lines, t_mlx *mlx);
-void				player_position(t_mlx *mlx);
-int					check_for_player(int x, int y, t_mlx *mlx);
-void				get_player_details(char spot, int x, int y, t_mlx *mlx);
-void				set_camera_ns(char dir, t_mlx *mlx);
-void				set_camera_ew(char spot, t_mlx *mlx);
-void				ft_map_checker(t_mlx *mlx);
-void				check_spot(t_mlx *mlx, int x, int y);
-t_sprite			*ft_get_sprites(t_mlx *mlx);
-int					ft_count_sprites(t_mlx *mlx);
-void				ft_screenshot(t_mlx *mlx);
+void				texture_posx(t_mlx *mlx);
+void				ft_init_vars(t_mlx *mlx);
+void				ray_step_dir(t_mlx *mlx);
 t_screenshot		*ft_init_shot(t_mlx *mlx);
-void				ft_screen_meta(t_mlx *mlx);
-void				ft_fill_shot(t_mlx *mlx, unsigned char *buf);
-void				ft_sort_sprites(t_mlx *mlx);
-int					check_file(char *file_path);
-void				ft_put_error(char *error, t_mlx *mlx);
-int					ft_close_game(t_mlx *mlx, int ret);
 void				ft_initialize(t_mlx *mlx);
 void				load_textures(t_mlx *mlx);
-int					ft_update(t_mlx *mlx);
-void				ft_movement(t_mlx *mlx);
-void				ft_move_left_right(t_mlx *mlx);
-int					check_movement(int x, int y, t_mlx *mlx);
-void				ft_rotation(t_mlx *mlx);
-void				ft_rotate_left(t_mlx *mlx);
-int					ft_key_pressed(int key, t_mlx *mlx);
-int					ft_key_released(int key, t_mlx *mlx);
-void				ft_draw_ceiling_floor(t_mlx *mlx);
+void				ft_screenshot(t_mlx *mlx);
+void				ft_check_vars(t_mlx *mlx);
 void				ft_draw_walls(t_mlx *mlx);
-void				ray_step_dir(t_mlx *mlx);
-void				cal_wall_distance(t_mlx *mlx);
-void				ft_texture(t_mlx *mlx, int x);
-void				texture_posx(t_mlx *mlx);
 void				load_right_tex(t_mlx *mlx);
-void				ft_sprites(t_mlx *mlx);
+void				ft_screen_meta(t_mlx *mlx);
+void				ft_map_checker(t_mlx *mlx);
+void				map_allocation(t_mlx *mlx);
+void				ft_rotate_left(t_mlx *mlx);
+t_sprite			*ft_get_sprites(t_mlx *mlx);
 void				cal_sprite_size(t_mlx *mlx);
-void				draw_sprite(t_mlx *mlx);
+void				player_position(t_mlx *mlx);
+void				ft_sort_sprites(t_mlx *mlx);
+int					check_file(char *file_path);
+int					ft_count_sprites(t_mlx *mlx);
+void				ft_texture(t_mlx *mlx, int x);
+void				cal_wall_distance(t_mlx *mlx);
+void				ft_move_left_right(t_mlx *mlx);
+void				ft_read_map_2(t_mlx *mlx, int i);
+void				ft_draw_ceiling_floor(t_mlx *mlx);
+int					ft_close_game(t_mlx *mlx, int ret);
+void				ft_start_game(t_mlx *mlx, int save);
+void				ft_read_map(t_mlx *mlx, char *file);
+void				set_camera_ns(char dir, t_mlx *mlx);
+void				parse_color(char *line, t_mlx *mlx);
+int					parse_lines(char *line, t_mlx *mlx);
+int					get_map_x(char **lines, t_mlx *mlx);
+int					ft_key_pressed(int key, t_mlx *mlx);
+void				check_spot(t_mlx *mlx, int x, int y);
+void				create_map(char **lines, t_mlx *mlx);
+void				get_tex_path(char *line, t_mlx *mlx);
+void				set_camera_ew(char spot, t_mlx *mlx);
+int					ft_key_released(int key, t_mlx *mlx);
+void				ft_put_error(char *error, t_mlx *mlx);
+void				get_resolution(char *line, t_mlx *mlx);
+void				get_sprite_path(char *line, t_mlx *mlx);
+int					check_movement(int x, int y, t_mlx *mlx);
+int					color_parse(char *line, int i, t_mlx *mlx);
+int					check_for_player(int x, int y, t_mlx *mlx);
+void				get_color(char *line, t_mlx *mlx, char type);
+void				ft_fill_shot(t_mlx *mlx, unsigned char *buf);
+char				**get_filelines(char **lines, char **temp, int fd);
+void				west_east_path(char *line, t_mlx *mlx, int i, int j);
+void				north_south_path(char *line, t_mlx *mlx, int i, int j);
+void				get_player_details(char spot, int x, int y, t_mlx *mlx);
 
 #endif
