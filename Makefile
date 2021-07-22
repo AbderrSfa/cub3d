@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asfaihi <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: asfaihi <asfaihi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/11 18:52:49 by asfaihi           #+#    #+#              #
-#    Updated: 2021/03/11 18:52:51 by asfaihi          ###   ########.fr        #
+#    Updated: 2021/07/22 10:59:37 by asfaihi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJECT = $(SRC:.c=.o)
 all: $(NAME)
 	
 
-$(NAME): $(OBJECT)
+$(NAME): $(OBJECT) cub3d.h get_next_line.h
 	@ar rcs $(LIBNAME) $(OBJECT)
 	@gcc $(MLX) $(LIBNAME) -o $(NAME)
 	@echo "\033[34m[Compiling is done !]"
